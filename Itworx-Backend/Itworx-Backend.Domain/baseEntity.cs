@@ -2,7 +2,7 @@
 {
     public class baseEntity
     {
-        public Int64 Id { get; set; }
+        public long Id { get; set; }
         public DateTime addedData { get; set; }
 
         public DateTime modifiedTime { get; set; }
