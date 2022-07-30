@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Entities
 {
-    internal class Project
+    internal class Project : baseEntity
     {
         public string Title { get; set; }
         public string Description { get; set; }
@@ -20,7 +20,7 @@ namespace Itworx_Backend.Domain.Entities
 
         public virtual User User { get; set; }
 
-        public virtual Widget Widget { get; set; }
+        public virtual IList<string> Widgets { get; set; }
 
     }
 }

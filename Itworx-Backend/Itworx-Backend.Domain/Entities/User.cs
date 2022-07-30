@@ -20,5 +20,7 @@ namespace Itworx_Backend.Domain.Entities
         public bool IsEmailConfirmed  { get; set; }
 
         public bool IsActive { get; set; }
+
+        public virtual IList<Project>? Project { get; set; }
     }
 }

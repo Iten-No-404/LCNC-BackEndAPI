@@ -11,5 +11,7 @@ namespace Itworx_Backend.Domain.Entities
         public string UnitName { get; set; }
 
         public bool IsDefault { get; set; }
+
+        public PropertyUnit PropertyUnit { get; set; }
     }
 }
