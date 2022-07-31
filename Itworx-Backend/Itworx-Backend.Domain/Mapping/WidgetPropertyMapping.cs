@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Mapping
 {
-    internal class WidgetPropertyMapping
+    public class WidgetPropertyMapping
     {
-        WidgetPropertyMapping(EntityTypeBuilder<WidgetProperty> entityBuilder)
+        public WidgetPropertyMapping(EntityTypeBuilder<WidgetProperty> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.HasOne(y => y.widget).WithOne(u => u.WidgetProperty).HasForeignKey<Widget>(x => x.Id);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Entities
 {
-    internal class Widget : baseEntity
+    public class Widget : baseEntity
     {
         public string title { get; set; }
         public string description { get; set; }

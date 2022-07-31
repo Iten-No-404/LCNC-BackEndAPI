@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Mapping
 {
-    internal class WidgetCodeSnippetMapping
+    public class WidgetCodeSnippetMapping
     {
-        WidgetCodeSnippetMapping(EntityTypeBuilder<WidgetCodeSnippet> entityBuilder)
+        public WidgetCodeSnippetMapping(EntityTypeBuilder<WidgetCodeSnippet> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.HasOne(y => y.Widget).WithOne(u => u.WidgetCodeSnippet).HasForeignKey<Widget>(x => x.Id);

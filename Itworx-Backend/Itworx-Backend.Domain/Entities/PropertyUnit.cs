@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Entities
 {
-    internal class PropertyUnit : baseEntity
+    public class PropertyUnit : baseEntity
     {
         public virtual Property Property { get; set; }
 

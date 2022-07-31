@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Mapping
 {
-    internal class AppTypeMapping
+    public class AppTypeMapping
     {
-        AppTypeMapping(EntityTypeBuilder<AppType> entityBuilder)
+        public AppTypeMapping(EntityTypeBuilder<AppType> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.Property(x => x.type);

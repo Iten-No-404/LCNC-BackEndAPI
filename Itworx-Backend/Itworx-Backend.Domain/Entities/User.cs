@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Entities
 {
-    internal class User : baseEntity
+    public class User : baseEntity
     {
         public string FullName { get; set; }
         public string Email { get; set; }

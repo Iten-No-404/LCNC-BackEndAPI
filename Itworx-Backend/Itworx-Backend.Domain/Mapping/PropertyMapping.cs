@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Mapping
 {
-    internal class PropertyMapping
+    public class PropertyMapping
     {
-        PropertyMapping(EntityTypeBuilder<Property> entityBuilder)
+        public PropertyMapping(EntityTypeBuilder<Property> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.Property(x=>x.PropertyName).IsRequired();

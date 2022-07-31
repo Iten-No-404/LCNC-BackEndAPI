@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Mapping
 {
-    internal class WidgetMapping
+    public class WidgetMapping
     {
-        WidgetMapping(EntityTypeBuilder<Widget> entityBuilder)
+        public WidgetMapping(EntityTypeBuilder<Widget> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.Property(x=>x.title).IsRequired();

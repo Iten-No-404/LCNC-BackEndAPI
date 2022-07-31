@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Mapping
 {
-    internal class UnitMapping
+    public class UnitMapping
     {
-        UnitMapping(EntityTypeBuilder<Unit> entityBuilder)
+        public UnitMapping(EntityTypeBuilder<Unit> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.Property(x=>x.IsDefault);

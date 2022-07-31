@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Entities
 {
-    internal class AppType : baseEntity 
+    public class AppType : baseEntity 
     {
         public string type { get; set; }
         public virtual Project Project { get; set; }

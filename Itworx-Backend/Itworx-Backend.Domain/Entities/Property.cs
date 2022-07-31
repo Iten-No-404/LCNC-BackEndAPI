@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Entities
 {
-    internal class Property : baseEntity
+    public class Property : baseEntity
     {
         public string PropertyName { get; set; }
 

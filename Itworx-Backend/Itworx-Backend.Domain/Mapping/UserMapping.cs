@@ -1,4 +1,5 @@
 ﻿using Itworx_Backend.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Mapping
 {
-    internal class UserMapping
+    public class UserMapping : IEntityTypeConfiguration<User>
     {
-        public UserMapping(EntityTypeBuilder<User> entityBuilder)
+        
+        public void Configure (EntityTypeBuilder<User> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.Property(x=>x.IsEmailConfirmed);

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Mapping
 {
-    internal class PropertyUnitMapping
+    public class PropertyUnitMapping
     {
-        PropertyUnitMapping(EntityTypeBuilder<PropertyUnit> entityBuilder)
+        public PropertyUnitMapping(EntityTypeBuilder<PropertyUnit> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.HasOne(x => x.Property).WithOne(u => u.PropertyUnit).HasForeignKey<Property>(y => y.Id);

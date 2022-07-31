@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Entities
 {
-    internal class WidgetCodeSnippet : baseEntity
+    public class WidgetCodeSnippet : baseEntity
     {
         public virtual Widget Widget { get; set; }
         

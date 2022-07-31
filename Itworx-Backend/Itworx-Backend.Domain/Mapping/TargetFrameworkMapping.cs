@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Mapping
 {
-    internal class TargetFrameworkMapping
+    public class TargetFrameworkMapping
     {
-        TargetFrameworkMapping(EntityTypeBuilder<TargetFramework> entityBuilder)
+        public TargetFrameworkMapping(EntityTypeBuilder<TargetFramework> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.Property(x => x.FrameworkName);
