@@ -13,12 +13,15 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Itworx-Backend.Service", "Itworx-Backend.Service\Itworx-Backend.Service.csproj", "{70AB4E86-636A-4D40-9E32-585C993BD4E4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Itworx-Backend.Persistence", "Itworx-Backend.Persistence\Itworx-Backend.Persistence.csproj", "{7833F07A-431F-42B2-B1B7-B339678DEC0C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{184CE40B-1BEA-4EA7-9E59-A7A156134361} = {184CE40B-1BEA-4EA7-9E59-A7A156134361}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Itworx-Backend.Test.Integration", "Itworx-Backend.Test.Integration\Itworx-Backend.Test.Integration.csproj", "{09430AFA-AC1E-418B-A5FA-4777B129303F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Itworx-Backend.Test.Unit", "Itworx-Backend.Test.Unit\Itworx-Backend.Test.Unit.csproj", "{5222BDB6-C2C1-4F45-904D-FD1330302710}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Itworx-Backend.Domain", "Itworx-Backend.Domain\Itworx-Backend.Domain.csproj", "{184CE40B-1BEA-4EA7-9E59-A7A156134361}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Itworx-Backend.Domain", "Itworx-Backend.Domain\Itworx-Backend.Domain.csproj", "{184CE40B-1BEA-4EA7-9E59-A7A156134361}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
