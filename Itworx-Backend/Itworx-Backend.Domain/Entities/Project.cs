@@ -20,7 +20,7 @@ namespace Itworx_Backend.Domain.Entities
 
         public virtual User User { get; set; }
 
-        public virtual IList<string> Widgets { get; set; }
+        public virtual string Widgets { get; set; }
 
     }
 }

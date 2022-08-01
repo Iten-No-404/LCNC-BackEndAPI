@@ -14,9 +14,9 @@ namespace Itworx_Backend.Domain.Entities
 
         public bool IsOnlyNested { get; set; }
 
-        public virtual Widget ParentWidgetID { get; set; }
+        public virtual Widget? ParentWidgetID { get; set; }
 
-        public virtual Widget ChildWidgetID { get; set; }
+        public virtual Widget? ChildWidgetID { get; set; }
 
         public virtual AppType RelatedAppTypeID { get; set; }
 
