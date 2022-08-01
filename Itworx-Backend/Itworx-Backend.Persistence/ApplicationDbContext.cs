@@ -31,27 +31,5 @@ namespace Itworx_Backend.Persistence
 
             base.OnModelCreating(builder);
         }
-      /*  public DbSet<AppType> AppType { get; set; }
-
-        public DbSet<Project> Project { get; set; }
-
-        public DbSet<Property> Property { get; set; }
-
-        public DbSet<PropertyUnit> PropertyUnit { get; set; }
-
-        public DbSet<PropertyValue> PropertyValue { get; set; }
-
-        public DbSet<User> Users { get; set; }
-
-        public DbSet<Unit> Units { get; set; }
-
-        public DbSet<TargetFramework> TargetFrameworks { get; set; }
-
-        public DbSet<Widget> Widgets { get; set; }
-
-        public DbSet<WidgetCodeSnippet> WidgetCodeSnippets { get; set; }
-
-        public DbSet<WidgetProperty> WidgetProperty { get; set; }
-      */
     }
 }
