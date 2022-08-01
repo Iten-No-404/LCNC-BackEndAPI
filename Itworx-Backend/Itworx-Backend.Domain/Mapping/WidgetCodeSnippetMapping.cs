@@ -1,4 +1,5 @@
 ﻿using Itworx_Backend.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Mapping
 {
-    public class WidgetCodeSnippetMapping
+    public class WidgetCodeSnippetMapping : IEntityTypeConfiguration<WidgetCodeSnippet>
     {
-        public WidgetCodeSnippetMapping(EntityTypeBuilder<WidgetCodeSnippet> entityBuilder)
+        public void Configure(EntityTypeBuilder<WidgetCodeSnippet> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.HasOne(y => y.Widget).WithOne(u => u.WidgetCodeSnippet).HasForeignKey<Widget>(x => x.Id);

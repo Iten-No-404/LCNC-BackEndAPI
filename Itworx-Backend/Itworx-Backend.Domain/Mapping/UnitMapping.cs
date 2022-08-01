@@ -1,4 +1,5 @@
 ﻿using Itworx_Backend.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Domain.Mapping
 {
-    public class UnitMapping
+    public class UnitMapping : IEntityTypeConfiguration<Unit>
     {
-        public UnitMapping(EntityTypeBuilder<Unit> entityBuilder)
+        public void Configure(EntityTypeBuilder<Unit> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.Property(x=>x.IsDefault);
