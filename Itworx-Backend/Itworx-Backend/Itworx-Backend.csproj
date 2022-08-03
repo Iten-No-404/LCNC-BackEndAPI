@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Itworx-Backend.Repository\Itworx-Backend.Repository.csproj" />
+    <ProjectReference Include="..\Itworx-Backend.Service\Itworx-Backend.Service.csproj" />
   </ItemGroup>
 
 </Project>

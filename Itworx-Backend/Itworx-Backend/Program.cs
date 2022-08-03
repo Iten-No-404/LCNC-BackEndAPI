@@ -1,4 +1,7 @@
+using Itworx_Backend.Domain.Entities;
 using Itworx_Backend.Repository;
+using Itworx_Backend.Repository.Repository;
+using Itworx_Backend.Service.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +13,21 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+#region Service Injected
+builder.Services.AddScoped(typeof(iRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IServices<Unit>, UnitService>();
+builder.Services.AddScoped<IServices<User>, UserService>();
+builder.Services.AddScoped<IServices<Widget>, WidgetService>();
+builder.Services.AddScoped<IServices<WidgetCodeSnippet>, WidgetCodeSnippetService>();
+builder.Services.AddScoped<IServices<WidgetProperty>, WidgetPropertyService>();
+builder.Services.AddScoped<IServices<Property>, PropertyService>();
+builder.Services.AddScoped<IServices<PropertyUnit>, PropertyUnitService>();
+builder.Services.AddScoped<IServices<PropertyValue>, PropertyValueService>();
+builder.Services.AddScoped<IServices<TargetFramework>, TargetFrameworkService>();
+builder.Services.AddScoped<IServices<AppType>, AppTypeService>();
+builder.Services.AddScoped<IServices<Project>, ProjectService>();
+#endregion
 
 var app = builder.Build();
 
