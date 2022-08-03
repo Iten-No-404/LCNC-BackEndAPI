@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Itworx_Backend.Persistence.Migrations
+namespace Itworx_Backend.Repository.Migrations
 {
-    public partial class adddbmodel : Migration
+    public partial class DatabaseCreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

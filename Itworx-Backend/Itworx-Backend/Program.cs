@@ -1,4 +1,4 @@
-using Itworx_Backend.Persistence;
+using Itworx_Backend.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
