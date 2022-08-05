@@ -3,6 +3,7 @@ using Itworx_Backend.Repository;
 using Itworx_Backend.Service.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Itworx_Backend.Controllers
 {
@@ -10,17 +11,20 @@ namespace Itworx_Backend.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IServices<User> _UserService;
+        private readonly IuserServices<User> _UserService;
         private readonly ApplicationDbContext _applicationDbContext;
-        public UserController(IServices<User> UserService, ApplicationDbContext applicationDbContext)
+        public UserController(IuserServices<User> UserService, ApplicationDbContext applicationDbContext)
         {
             _UserService = UserService;
             _applicationDbContext = applicationDbContext;
         }
-        [HttpGet(nameof(GetUserById))]
-        public IActionResult GetUserById(int Id)
+
+        
+
+        [HttpGet("{id}")]
+        public IActionResult GetUserById(int id)
         {
-            var obj = _UserService.Get(Id);
+            var obj = _UserService.Get(id);
             if (obj == null)
             {
                 return NotFound();
@@ -30,39 +34,87 @@ namespace Itworx_Backend.Controllers
                 return Ok(obj);
             }
         }
-        [HttpGet(nameof(GetAllUser))]
-        public IActionResult GetAllUser()
+        [HttpPost("Signup")]
+        public IActionResult Signup(User User)
         {
-            var obj = _UserService.GetAll();
-            if (obj == null)
+            if (User != null && User.FullName.Length != 0 && User.Email.Length != 0 && 
+                User.PhoneNo.ToString().Length != 0 && User.Password.Length != 0)
             {
-                return NotFound();
+                User? old = _UserService.Get(User.Email);
+                if(old == null)
+                {
+                    Random r = new Random();
+                    User Sameid;
+                    do
+                    {
+                        User.Id = r.Next(10000000, 99999999);
+                        Sameid = _UserService.Get((int)User.Id);
+                    }
+                    while (Sameid != null);
+
+                    User.Password = BCrypt.Net.BCrypt.HashPassword(User.Password);
+                    User.SubscriptionDate = DateTime.Now;
+                    User.modifiedTime = DateTime.Now;
+                    User.addedData = DateTime.Now;
+                    _UserService.Insert(User);
+                    return Ok("Created Successfully");
+                }
+                else
+                {
+                    return Ok("Please change email as it is already found");
+                }
             }
             else
             {
-                return Ok(obj);
+                return BadRequest("Something went wrong");
             }
         }
-        [HttpPost(nameof(CreateUser))]
-        public IActionResult CreateUser(User User)
+
+        [HttpGet("Login")]
+        public IActionResult Login([FromBody] dynamic body)
         {
-            if (User != null)
+
+            var obj = JsonConvert.DeserializeObject<User>(body.ToString());
+
+            if (obj.Email.Length != 0 && obj.Password.Length != 0)
             {
-                _UserService.Insert(User);
-                return Ok("Created Successfully");
+                User? old = _UserService.Get(obj.Email);
+                if (old != null)
+                {
+                    bool verified = BCrypt.Net.BCrypt.Verify(obj.Password, old.Password);
+                    if (verified)
+                    {
+                        return new OkObjectResult(old);
+                    }
+                    return BadRequest("Password Doesn't match");
+                }
+                else
+                {
+                    return Ok("email can't be found");
+                }
             }
             else
             {
-                return BadRequest("Somethingwent wrong");
+                return BadRequest("Something went wrong");
             }
         }
+
         [HttpPost(nameof(UpdateUser))]
         public IActionResult UpdateUser(User User)
         {
             if (User != null)
             {
-                _UserService.Update(User);
-                return Ok("Updated SuccessFully");
+                User? old = _UserService.Get((int)User.Id);
+                if(old != null)
+                {
+                    User.modifiedTime = DateTime.Now;
+                    _UserService.Update(User);
+                    return Ok("Updated SuccessFully");
+                }
+                else
+                {
+                    return BadRequest("User is not found");
+                }
             }
             else
             {
@@ -74,8 +126,13 @@ namespace Itworx_Backend.Controllers
         {
             if (User != null)
             {
-                _UserService.Delete(User);
-                return Ok("Deleted Successfully");
+                User? old = _UserService.Get(User.FullName);
+                if(old != null)
+                {
+                    _UserService.Delete(User);
+                    return Ok("Deleted Successfully");
+                }
+                return BadRequest("User not found");
             }
             else
             {

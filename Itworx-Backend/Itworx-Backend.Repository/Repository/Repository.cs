@@ -1,4 +1,5 @@
 ﻿using Itworx_Backend.Domain;
+using Itworx_Backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,14 +15,16 @@ namespace Itworx_Backend.Repository.Repository
         
         private readonly ApplicationDbContext _applicationDbContext;
         private DbSet<T> entities;
-        
+        private DbSet<User> userentities;
+
         #endregion
-        
+
         #region Constructor
         public Repository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
             entities = _applicationDbContext.Set<T>();
+            userentities = _applicationDbContext.Set<User>();
         }
         #endregion
         public void Delete(T entity)
@@ -37,6 +40,12 @@ namespace Itworx_Backend.Repository.Repository
         {
             return entities.SingleOrDefault(c => c.Id == Id);
         }
+
+        public User Get(string email)
+        {
+            return userentities.SingleOrDefault(c => c.Email == email);
+        }
+
         public IEnumerable<T> GetAll()
         {
             return entities.AsEnumerable();

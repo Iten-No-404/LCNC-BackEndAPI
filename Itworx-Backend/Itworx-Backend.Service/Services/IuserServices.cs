@@ -1,23 +1,20 @@
-﻿using Itworx_Backend.Domain;
-using Itworx_Backend.Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Itworx_Backend.Repository.Repository
+namespace Itworx_Backend.Service.Services
 {
-    public interface iRepository < T > where T: baseEntity
+    public interface IuserServices<T> where T : class
     {
         IEnumerable<T> GetAll();
         T Get(int Id);
-        User Get(string email);
 
+        T Get(string email);
         void Insert(T entity);
         void Update(T entity);
         void Delete(T entity);
         void Remove(T entity);
-        void SaveChanges();
     }
 }

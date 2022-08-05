@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Service.Services
 {
-    public class UserService : IServices<User>
+    public class UserService : IuserServices<User>
     {
         private readonly iRepository<User> _userRepository;
         public UserService(iRepository<User> userRepository)
@@ -51,6 +51,26 @@ namespace Itworx_Backend.Service.Services
             }
         }
 
+        public User Get(string email)
+        {
+            try
+            {
+                var obj = _userRepository.Get(email);
+
+                if (obj != null)
+                {
+                    return obj;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public IEnumerable<User> GetAll()
         {
             try
