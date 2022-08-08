@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Itworx_Backend.Service.Interfaces;
 
 namespace Itworx_Backend.Service.Services
 {
-    public class TargetFrameworkService : IServices<TargetFramework>
+    public class TargetFrameworkService : ItargetFramework<TargetFramework>
     {
         private readonly iRepository<TargetFramework> _TargetFrameworkRepository;
         public TargetFrameworkService(iRepository<TargetFramework> TargetFrameworkRepository)
@@ -51,11 +52,11 @@ namespace Itworx_Backend.Service.Services
             }
         }
 
-        public IEnumerable<TargetFramework> GetAll()
+        public TargetFramework Get(string name)
         {
             try
             {
-                var obj = _TargetFrameworkRepository.GetAll();
+                var obj = _TargetFrameworkRepository.GetFramework(name);
                 if (obj != null)
                 {
                     return obj;
@@ -71,6 +72,7 @@ namespace Itworx_Backend.Service.Services
             }
         }
 
+
         public void Insert(TargetFramework entity)
         {
             try
@@ -78,38 +80,6 @@ namespace Itworx_Backend.Service.Services
                 if (entity != null)
                 {
                     _TargetFrameworkRepository.Insert(entity);
-                    _TargetFrameworkRepository.SaveChanges();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public void Remove(TargetFramework entity)
-        {
-            try
-            {
-                if (entity != null)
-                {
-                    _TargetFrameworkRepository.Remove(entity);
-                    _TargetFrameworkRepository.SaveChanges();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public void Update(TargetFramework entity)
-        {
-            try
-            {
-                if (entity != null)
-                {
-                    _TargetFrameworkRepository.Update(entity);
                     _TargetFrameworkRepository.SaveChanges();
                 }
             }

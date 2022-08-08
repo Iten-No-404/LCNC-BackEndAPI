@@ -14,6 +14,10 @@ namespace Itworx_Backend.Repository.Repository
         T Get(int Id);
         User Get(string email);
 
+        TargetFramework GetFramework(string name);
+
+        AppType GetType(string Type);
+
         void Insert(T entity);
         void Update(T entity);
         void Delete(T entity);

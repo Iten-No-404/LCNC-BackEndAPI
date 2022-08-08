@@ -16,6 +16,8 @@ namespace Itworx_Backend.Repository.Repository
         private readonly ApplicationDbContext _applicationDbContext;
         private DbSet<T> entities;
         private DbSet<User> userentities;
+        private DbSet<TargetFramework> Frameworkentities;
+        private DbSet<AppType> Appentities;
 
         #endregion
 
@@ -25,6 +27,8 @@ namespace Itworx_Backend.Repository.Repository
             _applicationDbContext = applicationDbContext;
             entities = _applicationDbContext.Set<T>();
             userentities = _applicationDbContext.Set<User>();
+            Frameworkentities = _applicationDbContext.Set<TargetFramework>();
+            Appentities = _applicationDbContext.Set<AppType>();
         }
         #endregion
         public void Delete(T entity)
@@ -45,6 +49,19 @@ namespace Itworx_Backend.Repository.Repository
         {
             return userentities.SingleOrDefault(c => c.Email == email);
         }
+
+        
+
+        public TargetFramework GetFramework(string name)
+        {
+            return Frameworkentities.SingleOrDefault(c => c.FrameworkName == name);
+        }
+
+        public AppType GetType(string type)
+        {
+            return Appentities.SingleOrDefault(c => c.type == type);
+        }
+
 
         public IEnumerable<T> GetAll()
         {

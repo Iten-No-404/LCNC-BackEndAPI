@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Itworx_Backend.Service.Interfaces;
 
 namespace Itworx_Backend.Service.Services
 {
-    public class AppTypeService : IServices<AppType>
+    public class AppTypeService : IappType<AppType>
     {
         private readonly iRepository<AppType> _AppTypeRepository;
         public AppTypeService(iRepository<AppType> AppTypeRepository)
@@ -51,6 +52,25 @@ namespace Itworx_Backend.Service.Services
             }
         }
 
+        public AppType Get(string type)
+        {
+            try
+            {
+                var obj = _AppTypeRepository.GetType(type);
+                if (obj != null)
+                {
+                    return obj;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public IEnumerable<AppType> GetAll()
         {
             try
@@ -78,38 +98,6 @@ namespace Itworx_Backend.Service.Services
                 if (entity != null)
                 {
                     _AppTypeRepository.Insert(entity);
-                    _AppTypeRepository.SaveChanges();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public void Remove(AppType entity)
-        {
-            try
-            {
-                if (entity != null)
-                {
-                    _AppTypeRepository.Remove(entity);
-                    _AppTypeRepository.SaveChanges();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public void Update(AppType entity)
-        {
-            try
-            {
-                if (entity != null)
-                {
-                    _AppTypeRepository.Update(entity);
                     _AppTypeRepository.SaveChanges();
                 }
             }

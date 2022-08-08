@@ -1,5 +1,6 @@
 ﻿using Itworx_Backend.Domain.Entities;
 using Itworx_Backend.Repository.Repository;
+using Itworx_Backend.Service.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

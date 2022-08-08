@@ -4,6 +4,7 @@ using Itworx_Backend.Service.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Itworx_Backend.Service.Interfaces;
 
 namespace Itworx_Backend.Controllers
 {
@@ -12,11 +13,9 @@ namespace Itworx_Backend.Controllers
     public class UserController : ControllerBase
     {
         private readonly IuserServices<User> _UserService;
-        private readonly ApplicationDbContext _applicationDbContext;
-        public UserController(IuserServices<User> UserService, ApplicationDbContext applicationDbContext)
+        public UserController(IuserServices<User> UserService)
         {
             _UserService = UserService;
-            _applicationDbContext = applicationDbContext;
         }
 
         
