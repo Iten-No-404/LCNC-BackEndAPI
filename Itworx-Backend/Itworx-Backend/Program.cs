@@ -1,6 +1,7 @@
 using Itworx_Backend.Domain.Entities;
 using Itworx_Backend.Repository;
 using Itworx_Backend.Repository.Repository;
+using Itworx_Backend.Service.Interfaces;
 using Itworx_Backend.Service.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,8 +25,8 @@ builder.Services.AddScoped<IServices<WidgetProperty>, WidgetPropertyService>();
 builder.Services.AddScoped<IServices<Property>, PropertyService>();
 builder.Services.AddScoped<IServices<PropertyUnit>, PropertyUnitService>();
 builder.Services.AddScoped<IServices<PropertyValue>, PropertyValueService>();
-builder.Services.AddScoped<IServices<TargetFramework>, TargetFrameworkService>();
-builder.Services.AddScoped<IServices<AppType>, AppTypeService>();
+builder.Services.AddScoped<ItargetFramework<TargetFramework>, TargetFrameworkService>();
+builder.Services.AddScoped<IappType<AppType>, AppTypeService>();
 builder.Services.AddScoped<IServices<Project>, ProjectService>();
 #endregion
 
