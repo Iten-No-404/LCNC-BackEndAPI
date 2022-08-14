@@ -60,7 +60,7 @@ namespace Itworx_Backend.Controllers
                 }
                 else
                 {
-                    return Ok("Please change email as it is already found");
+                    return BadRequest("Please change email as it is already found");
                 }
             }
             else
@@ -89,7 +89,7 @@ namespace Itworx_Backend.Controllers
                 }
                 else
                 {
-                    return Ok("email can't be found");
+                    return BadRequest("email can't be found");
                 }
             }
             else
@@ -138,5 +138,6 @@ namespace Itworx_Backend.Controllers
                 return BadRequest("Something went wrong");
             }
         }
+
     }
 }
