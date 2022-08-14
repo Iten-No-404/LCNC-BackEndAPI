@@ -15,7 +15,7 @@ namespace Itworx_Backend.Controllers
             _WidgetService = WidgetService;
         }
 
-        [HttpGet("/")]
+        [HttpGet]
         public IActionResult GetWidget()
         {
             return Ok("msg recived");
