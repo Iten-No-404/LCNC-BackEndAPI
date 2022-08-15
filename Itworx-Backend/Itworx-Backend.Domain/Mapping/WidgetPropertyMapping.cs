@@ -14,8 +14,8 @@ namespace Itworx_Backend.Domain.Mapping
         public void Configure(EntityTypeBuilder<WidgetProperty> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
-            entityBuilder.HasOne(y => y.widget).WithOne(u => u.WidgetProperty).HasForeignKey<Widget>(x => x.Id);
-            entityBuilder.HasOne(y => y.property).WithOne(u => u.WidgetProperty).HasForeignKey<Property>(x => x.Id);
+            entityBuilder.HasOne(y => y.widget).WithOne(u => u.WidgetProperty).HasForeignKey<WidgetProperty>(x => x.Id);
+            entityBuilder.HasOne(y => y.property).WithOne(u => u.WidgetProperty).HasForeignKey<WidgetProperty>(x => x.Id);
             entityBuilder.Property(x => x.DefaultValue);
         }
     }

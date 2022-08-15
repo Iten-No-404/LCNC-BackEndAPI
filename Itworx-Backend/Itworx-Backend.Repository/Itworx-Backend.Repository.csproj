@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Itworx-Backend.Domain\Itworx-Backend.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

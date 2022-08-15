@@ -18,11 +18,11 @@ namespace Itworx_Backend.Domain.Entities
 
         public virtual Widget? ChildWidgetID { get; set; }
 
-        public virtual AppType RelatedAppTypeID { get; set; }
+        public virtual AppType? RelatedAppTypeID { get; set; }
 
-        public virtual WidgetProperty WidgetProperty { get; set; }
+        public virtual WidgetProperty? WidgetProperty { get; set; }
 
-        public virtual WidgetCodeSnippet WidgetCodeSnippet { get; set; }
+        public virtual WidgetCodeSnippet? WidgetCodeSnippet { get; set; }
 
     }
 }

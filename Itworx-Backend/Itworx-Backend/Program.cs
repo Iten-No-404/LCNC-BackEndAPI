@@ -17,7 +17,7 @@ builder.Services.AddSwaggerGen();
 
 #region Service Injected
 builder.Services.AddScoped(typeof(iRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<IServices<Unit>, UnitService>();
+builder.Services.AddScoped<Iunit<Unit>, UnitService>();
 builder.Services.AddScoped<IuserServices<User>, UserService>();
 builder.Services.AddScoped<IServices<Widget>, WidgetService>();
 builder.Services.AddScoped<IServices<WidgetCodeSnippet>, WidgetCodeSnippetService>();

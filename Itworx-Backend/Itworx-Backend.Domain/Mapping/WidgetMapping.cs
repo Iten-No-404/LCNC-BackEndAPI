@@ -19,7 +19,7 @@ namespace Itworx_Backend.Domain.Mapping
             entityBuilder.HasOne(u => u.ParentWidgetID).WithOne(y => y.ChildWidgetID);
             entityBuilder.Property(x=>x.IconPath).IsRequired();
             entityBuilder.Property(x => x.IsOnlyNested);
-            entityBuilder.HasOne(u => u.RelatedAppTypeID).WithOne(y => y.Widget).HasForeignKey<AppType>(x => x.Id);
+            entityBuilder.HasOne(u => u.RelatedAppTypeID).WithOne(y => y.Widget).HasForeignKey<Widget>(x => x.Id);
         }
     }
 }

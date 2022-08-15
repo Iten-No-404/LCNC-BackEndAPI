@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Itworx_Backend.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220803192231_Database Creation")]
-    partial class DatabaseCreation
+    [Migration("20220815233121_init db")]
+    partial class initdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,10 @@ namespace Itworx_Backend.Repository.Migrations
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.AppType", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTime>("addedData")
                         .HasColumnType("datetime2");
@@ -47,10 +50,7 @@ namespace Itworx_Backend.Repository.Migrations
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.Project", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -67,7 +67,7 @@ namespace Itworx_Backend.Repository.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("UserId")
+                    b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Widgets")
@@ -90,7 +90,10 @@ namespace Itworx_Backend.Repository.Migrations
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.Property", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -124,10 +127,7 @@ namespace Itworx_Backend.Repository.Migrations
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.PropertyUnit", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<bool>("IsDefault")
                         .HasColumnType("bit");
@@ -146,10 +146,7 @@ namespace Itworx_Backend.Repository.Migrations
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.PropertyValue", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<bool>("IsDefault")
                         .HasColumnType("bit");
@@ -172,7 +169,10 @@ namespace Itworx_Backend.Repository.Migrations
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.TargetFramework", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("FrameworkName")
                         .IsRequired()
@@ -192,7 +192,10 @@ namespace Itworx_Backend.Repository.Migrations
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.Unit", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<bool>("IsDefault")
                         .HasColumnType("bit");
@@ -296,10 +299,7 @@ namespace Itworx_Backend.Repository.Migrations
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.WidgetCodeSnippet", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("CoddeSnippet")
                         .IsRequired()
@@ -319,10 +319,7 @@ namespace Itworx_Backend.Repository.Migrations
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.WidgetProperty", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("DefaultValue")
                         .IsRequired()
@@ -339,109 +336,74 @@ namespace Itworx_Backend.Repository.Migrations
                     b.ToTable("WidgetProperty");
                 });
 
-            modelBuilder.Entity("Itworx_Backend.Domain.Entities.AppType", b =>
-                {
-                    b.HasOne("Itworx_Backend.Domain.Entities.Project", "Project")
-                        .WithOne("AppType")
-                        .HasForeignKey("Itworx_Backend.Domain.Entities.AppType", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Itworx_Backend.Domain.Entities.Widget", "Widget")
-                        .WithOne("RelatedAppTypeID")
-                        .HasForeignKey("Itworx_Backend.Domain.Entities.AppType", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Project");
-
-                    b.Navigation("Widget");
-                });
-
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.Project", b =>
                 {
-                    b.HasOne("Itworx_Backend.Domain.Entities.User", "User")
-                        .WithMany("Project")
-                        .HasForeignKey("UserId")
+                    b.HasOne("Itworx_Backend.Domain.Entities.AppType", "AppType")
+                        .WithOne("Project")
+                        .HasForeignKey("Itworx_Backend.Domain.Entities.Project", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Itworx_Backend.Domain.Entities.TargetFramework", "TargetFramework")
+                        .WithOne("Project")
+                        .HasForeignKey("Itworx_Backend.Domain.Entities.Project", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Itworx_Backend.Domain.Entities.User", "User")
+                        .WithMany("Project")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("AppType");
+
+                    b.Navigation("TargetFramework");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.Property", b =>
                 {
-                    b.HasOne("Itworx_Backend.Domain.Entities.PropertyUnit", "PropertyUnit")
-                        .WithOne("Property")
-                        .HasForeignKey("Itworx_Backend.Domain.Entities.Property", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Itworx_Backend.Domain.Entities.PropertyValue", "Value")
-                        .WithOne("Property")
-                        .HasForeignKey("Itworx_Backend.Domain.Entities.Property", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Itworx_Backend.Domain.Entities.WidgetProperty", "WidgetProperty")
-                        .WithOne("property")
-                        .HasForeignKey("Itworx_Backend.Domain.Entities.Property", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Itworx_Backend.Domain.Entities.Property", "ParentPropertyID")
                         .WithOne("ChildPropertyID")
                         .HasForeignKey("Itworx_Backend.Domain.Entities.Property", "ParentPropertyIDId");
 
                     b.Navigation("ParentPropertyID");
-
-                    b.Navigation("PropertyUnit");
-
-                    b.Navigation("Value");
-
-                    b.Navigation("WidgetProperty");
                 });
 
-            modelBuilder.Entity("Itworx_Backend.Domain.Entities.TargetFramework", b =>
+            modelBuilder.Entity("Itworx_Backend.Domain.Entities.PropertyUnit", b =>
                 {
-                    b.HasOne("Itworx_Backend.Domain.Entities.Project", "Project")
-                        .WithOne("TargetFramework")
-                        .HasForeignKey("Itworx_Backend.Domain.Entities.TargetFramework", "Id")
+                    b.HasOne("Itworx_Backend.Domain.Entities.Property", "Property")
+                        .WithOne("PropertyUnit")
+                        .HasForeignKey("Itworx_Backend.Domain.Entities.PropertyUnit", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Itworx_Backend.Domain.Entities.WidgetCodeSnippet", "WidgetCodeSnippet")
-                        .WithOne("TargetFramework")
-                        .HasForeignKey("Itworx_Backend.Domain.Entities.TargetFramework", "Id")
+                    b.HasOne("Itworx_Backend.Domain.Entities.Unit", "Unit")
+                        .WithOne("PropertyUnit")
+                        .HasForeignKey("Itworx_Backend.Domain.Entities.PropertyUnit", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Project");
+                    b.Navigation("Property");
 
-                    b.Navigation("WidgetCodeSnippet");
+                    b.Navigation("Unit");
                 });
 
-            modelBuilder.Entity("Itworx_Backend.Domain.Entities.Unit", b =>
+            modelBuilder.Entity("Itworx_Backend.Domain.Entities.PropertyValue", b =>
                 {
-                    b.HasOne("Itworx_Backend.Domain.Entities.PropertyUnit", "PropertyUnit")
-                        .WithOne("Unit")
-                        .HasForeignKey("Itworx_Backend.Domain.Entities.Unit", "Id")
+                    b.HasOne("Itworx_Backend.Domain.Entities.Property", "Property")
+                        .WithOne("Value")
+                        .HasForeignKey("Itworx_Backend.Domain.Entities.PropertyValue", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PropertyUnit");
+                    b.Navigation("Property");
                 });
 
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.Widget", b =>
                 {
-                    b.HasOne("Itworx_Backend.Domain.Entities.WidgetCodeSnippet", "WidgetCodeSnippet")
+                    b.HasOne("Itworx_Backend.Domain.Entities.AppType", "RelatedAppTypeID")
                         .WithOne("Widget")
-                        .HasForeignKey("Itworx_Backend.Domain.Entities.Widget", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Itworx_Backend.Domain.Entities.WidgetProperty", "WidgetProperty")
-                        .WithOne("widget")
                         .HasForeignKey("Itworx_Backend.Domain.Entities.Widget", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -452,38 +414,75 @@ namespace Itworx_Backend.Repository.Migrations
 
                     b.Navigation("ParentWidgetID");
 
-                    b.Navigation("WidgetCodeSnippet");
-
-                    b.Navigation("WidgetProperty");
+                    b.Navigation("RelatedAppTypeID");
                 });
 
-            modelBuilder.Entity("Itworx_Backend.Domain.Entities.Project", b =>
+            modelBuilder.Entity("Itworx_Backend.Domain.Entities.WidgetCodeSnippet", b =>
                 {
-                    b.Navigation("AppType")
+                    b.HasOne("Itworx_Backend.Domain.Entities.TargetFramework", "TargetFramework")
+                        .WithOne("WidgetCodeSnippet")
+                        .HasForeignKey("Itworx_Backend.Domain.Entities.WidgetCodeSnippet", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("TargetFramework")
+                    b.HasOne("Itworx_Backend.Domain.Entities.Widget", "Widget")
+                        .WithOne("WidgetCodeSnippet")
+                        .HasForeignKey("Itworx_Backend.Domain.Entities.WidgetCodeSnippet", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("TargetFramework");
+
+                    b.Navigation("Widget");
+                });
+
+            modelBuilder.Entity("Itworx_Backend.Domain.Entities.WidgetProperty", b =>
+                {
+                    b.HasOne("Itworx_Backend.Domain.Entities.Property", "property")
+                        .WithOne("WidgetProperty")
+                        .HasForeignKey("Itworx_Backend.Domain.Entities.WidgetProperty", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Itworx_Backend.Domain.Entities.Widget", "widget")
+                        .WithOne("WidgetProperty")
+                        .HasForeignKey("Itworx_Backend.Domain.Entities.WidgetProperty", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("property");
+
+                    b.Navigation("widget");
+                });
+
+            modelBuilder.Entity("Itworx_Backend.Domain.Entities.AppType", b =>
+                {
+                    b.Navigation("Project");
+
+                    b.Navigation("Widget");
                 });
 
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.Property", b =>
                 {
                     b.Navigation("ChildPropertyID");
+
+                    b.Navigation("PropertyUnit");
+
+                    b.Navigation("Value");
+
+                    b.Navigation("WidgetProperty");
                 });
 
-            modelBuilder.Entity("Itworx_Backend.Domain.Entities.PropertyUnit", b =>
+            modelBuilder.Entity("Itworx_Backend.Domain.Entities.TargetFramework", b =>
                 {
-                    b.Navigation("Property")
-                        .IsRequired();
+                    b.Navigation("Project");
 
-                    b.Navigation("Unit")
-                        .IsRequired();
+                    b.Navigation("WidgetCodeSnippet");
                 });
 
-            modelBuilder.Entity("Itworx_Backend.Domain.Entities.PropertyValue", b =>
+            modelBuilder.Entity("Itworx_Backend.Domain.Entities.Unit", b =>
                 {
-                    b.Navigation("Property")
-                        .IsRequired();
+                    b.Navigation("PropertyUnit");
                 });
 
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.User", b =>
@@ -495,26 +494,9 @@ namespace Itworx_Backend.Repository.Migrations
                 {
                     b.Navigation("ChildWidgetID");
 
-                    b.Navigation("RelatedAppTypeID")
-                        .IsRequired();
-                });
+                    b.Navigation("WidgetCodeSnippet");
 
-            modelBuilder.Entity("Itworx_Backend.Domain.Entities.WidgetCodeSnippet", b =>
-                {
-                    b.Navigation("TargetFramework")
-                        .IsRequired();
-
-                    b.Navigation("Widget")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Itworx_Backend.Domain.Entities.WidgetProperty", b =>
-                {
-                    b.Navigation("property")
-                        .IsRequired();
-
-                    b.Navigation("widget")
-                        .IsRequired();
+                    b.Navigation("WidgetProperty");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,9 +8,9 @@ namespace Itworx_Backend.Domain.Entities
 {
     public class PropertyUnit : baseEntity
     {
-        public virtual Property Property { get; set; }
+        public virtual Property? Property { get; set; }
 
-        public virtual Unit Unit { get; set; }
+        public virtual Unit? Unit { get; set; }
 
         public bool IsDefault { get; set; }
 

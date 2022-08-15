@@ -18,6 +18,7 @@ namespace Itworx_Backend.Repository.Repository
         private DbSet<User> userentities;
         private DbSet<TargetFramework> Frameworkentities;
         private DbSet<AppType> Appentities;
+        private DbSet<Unit> Unitentities;
 
         #endregion
 
@@ -29,6 +30,7 @@ namespace Itworx_Backend.Repository.Repository
             userentities = _applicationDbContext.Set<User>();
             Frameworkentities = _applicationDbContext.Set<TargetFramework>();
             Appentities = _applicationDbContext.Set<AppType>();
+            Unitentities = _applicationDbContext.Set<Unit>();
         }
         #endregion
         public void Delete(T entity)
@@ -62,6 +64,10 @@ namespace Itworx_Backend.Repository.Repository
             return Appentities.SingleOrDefault(c => c.type == type);
         }
 
+        public Unit Getname(string name)
+        {
+            return Unitentities.SingleOrDefault(c => c.UnitName == name);
+        }
 
         public IEnumerable<T> GetAll()
         {
@@ -97,5 +103,6 @@ namespace Itworx_Backend.Repository.Repository
             entities.Update(entity);
             _applicationDbContext.SaveChanges();
         }
+
     }
 }

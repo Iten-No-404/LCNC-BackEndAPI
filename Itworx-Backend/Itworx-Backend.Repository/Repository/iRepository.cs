@@ -18,6 +18,7 @@ namespace Itworx_Backend.Repository.Repository
 
         AppType GetType(string Type);
 
+        Unit Getname(string Name);
         void Insert(T entity);
         void Update(T entity);
         void Delete(T entity);

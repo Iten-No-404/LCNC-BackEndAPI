@@ -10,7 +10,7 @@ namespace Itworx_Backend.Domain.Entities
     {
         public string Value { get; set; }
 
-        public virtual Property Property { get; set; }
+        public virtual Property? Property { get; set; }
 
         public bool IsDefault { get; set; }
     }

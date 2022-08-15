@@ -14,11 +14,11 @@ namespace Itworx_Backend.Domain.Entities
 
         public DateTime CreationDate { get; set; }
 
-        public virtual AppType AppType { get; set; }
+        public virtual AppType ? AppType { get; set; }
 
-        public virtual TargetFramework TargetFramework { get; set; }
+        public virtual TargetFramework ? TargetFramework { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual User ? User { get; set; }
 
         public virtual string Widgets { get; set; }
 

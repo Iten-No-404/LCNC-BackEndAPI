@@ -9,7 +9,7 @@ using Itworx_Backend.Service.Interfaces;
 
 namespace Itworx_Backend.Service.Services
 {
-    public class UnitService : IServices<Unit>
+    public class UnitService : Iunit<Unit>
     {
         private readonly iRepository<Unit> _UnitRepository;
         public UnitService(iRepository<Unit> UnitRepository)
@@ -37,6 +37,26 @@ namespace Itworx_Backend.Service.Services
             try
             {
                 var obj = _UnitRepository.Get(Id);
+                if (obj != null)
+                {
+                    return obj;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public Unit Get(string name)
+        {
+            try
+            {
+                var obj = _UnitRepository.Getname(name);
                 if (obj != null)
                 {
                     return obj;

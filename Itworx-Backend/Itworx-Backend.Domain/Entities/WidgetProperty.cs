@@ -8,10 +8,10 @@ namespace Itworx_Backend.Domain.Entities
 {
     public class WidgetProperty : baseEntity
     {
-        public virtual Widget widget { get; set; }
+        public virtual Widget? widget { get; set; }
 
         public string DefaultValue { get; set; }
 
-        public virtual Property property { get; set; }
+        public virtual Property? property { get; set; }
     }
 }
