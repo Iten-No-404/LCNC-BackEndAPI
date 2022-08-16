@@ -18,7 +18,7 @@ namespace Itworx_Backend.Controllers
             _UserService = UserService;
         }
 
-        
+
 
         [HttpGet("{id}")]
         public IActionResult GetUserById(int id)
@@ -36,21 +36,12 @@ namespace Itworx_Backend.Controllers
         [HttpPost("Signup")]
         public IActionResult Signup(User User)
         {
-            if (User != null && User.FullName.Length != 0 && User.Email.Length != 0 && 
+            if (User != null && User.FullName.Length != 0 && User.Email.Length != 0 &&
                 User.PhoneNo.ToString().Length != 0 && User.Password.Length != 0)
             {
                 User? old = _UserService.Get(User.Email);
-                if(old == null)
+                if (old == null)
                 {
-                    Random r = new Random();
-                    User Sameid;
-                    do
-                    {
-                        User.Id = r.Next(10000000, 99999999);
-                        Sameid = _UserService.Get((int)User.Id);
-                    }
-                    while (Sameid != null);
-
                     User.Password = BCrypt.Net.BCrypt.HashPassword(User.Password);
                     User.SubscriptionDate = DateTime.Now;
                     User.modifiedTime = DateTime.Now;
@@ -104,7 +95,7 @@ namespace Itworx_Backend.Controllers
             if (User != null)
             {
                 User? old = _UserService.Get((int)User.Id);
-                if(old != null)
+                if (old != null)
                 {
                     User.modifiedTime = DateTime.Now;
                     _UserService.Update(User);
@@ -126,7 +117,7 @@ namespace Itworx_Backend.Controllers
             if (User != null)
             {
                 User? old = _UserService.Get(User.FullName);
-                if(old != null)
+                if (old != null)
                 {
                     _UserService.Delete(User);
                     return Ok("Deleted Successfully");

@@ -16,7 +16,7 @@ namespace Itworx_Backend.Domain.Mapping
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.HasOne(y => y.Widget).WithOne(u => u.WidgetCodeSnippet).HasForeignKey<WidgetCodeSnippet>(x => x.Id);
             entityBuilder.HasOne(y => y.TargetFramework).WithOne(u => u.WidgetCodeSnippet).HasForeignKey<WidgetCodeSnippet>(x => x.Id);
-            entityBuilder.Property(x => x.CoddeSnippet);
+            entityBuilder.Property(x => x.CodeSnippet);
 
         }
     }
