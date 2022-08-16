@@ -24,6 +24,15 @@ namespace Itworx_Backend.Controllers
                 var obj = _TargetFrameworkService.Get(Framework.FrameworkName);
                 if (obj == null)
                 {
+                    Random r = new Random();
+                    TargetFramework Sameid;
+                    do
+                    {
+                        Framework.Id = r.Next(10000000, 99999999);
+                        Sameid = _TargetFrameworkService.Get((int)Framework.Id);
+                    }
+                    while (Sameid != null);
+
                     _TargetFrameworkService.Insert(Framework);
                     return Ok("Target Framework added successfully");
                 }

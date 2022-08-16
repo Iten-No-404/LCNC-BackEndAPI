@@ -12,6 +12,7 @@ namespace Itworx_Backend.Domain.Entities
         
         public virtual TargetFramework? TargetFramework { get; set; }
 
+        public int TargetFramworkId { get; set; }
         public string CodeSnippet { get; set; }
     }
 }

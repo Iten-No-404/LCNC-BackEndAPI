@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Itworx_Backend.Service.Interfaces;
 using Itworx_Backend.Domain.Entities;
+using Newtonsoft.Json;
 
 namespace Itworx_Backend.Controllers
 {
@@ -10,20 +11,31 @@ namespace Itworx_Backend.Controllers
     public class WidgetCodeSnippetController : ControllerBase
     {
         private readonly IServices<WidgetCodeSnippet> _widgetCodeSnippetService;
-        public WidgetCodeSnippetController(IServices<WidgetCodeSnippet> widgetCodeSnippetService)
+        private readonly ItargetFramework<TargetFramework> _targetFrameworkService;
+
+        public WidgetCodeSnippetController(IServices<WidgetCodeSnippet> widgetCodeSnippetService, 
+                ItargetFramework<TargetFramework> targetFrameworkService)
         {
             _widgetCodeSnippetService = widgetCodeSnippetService;
-
+            _targetFrameworkService = targetFrameworkService;
         }
 
         [HttpPost("create")]
         public IActionResult CreateWidgetCodeSnippet(WidgetCodeSnippet widgetCodeSnippet)
         {
-            if (widgetCodeSnippet == null || widgetCodeSnippet.TargetFramework == null || widgetCodeSnippet.CodeSnippet == "")
+            widgetCodeSnippet.TargetFramework = _targetFrameworkService.Get(widgetCodeSnippet.TargetFramworkId);
+            if (widgetCodeSnippet == null || widgetCodeSnippet.CodeSnippet == "")
             {
                 return BadRequest("Missing or invalid data");
             }
-
+            Random r = new Random();
+            WidgetCodeSnippet Sameid;
+            do
+            {
+                widgetCodeSnippet.Id = r.Next(10000000, 99999999);
+                Sameid = _widgetCodeSnippetService.Get((int)widgetCodeSnippet.Id);
+            }
+            while (Sameid != null);
             widgetCodeSnippet.modifiedTime = DateTime.Now;
             widgetCodeSnippet.addedData = DateTime.Now;
             _widgetCodeSnippetService.Insert(widgetCodeSnippet);
