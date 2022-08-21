@@ -50,6 +50,9 @@ namespace Itworx_Backend.Repository.Migrations
                     b.Property<long>("Id")
                         .HasColumnType("bigint");
 
+                    b.Property<int>("AppTypeId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
@@ -78,6 +81,12 @@ namespace Itworx_Backend.Repository.Migrations
                     b.Property<DateTime>("modifiedTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("targetFrameworkId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("user_Id")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
@@ -100,24 +109,39 @@ namespace Itworx_Backend.Repository.Migrations
                     b.Property<bool>("IsOnlyNested")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("ParentPropertyIDId")
+                    b.Property<long?>("ParentPropertyId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("PropertyName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UnitID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ValueID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("addedData")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("childID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("modifiedTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("parentID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("widgetID")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentPropertyIDId")
+                    b.HasIndex("ParentPropertyId")
                         .IsUnique()
-                        .HasFilter("[ParentPropertyIDId] IS NOT NULL");
+                        .HasFilter("[ParentPropertyId] IS NOT NULL");
 
                     b.ToTable("Property");
                 });
@@ -135,6 +159,12 @@ namespace Itworx_Backend.Repository.Migrations
 
                     b.Property<DateTime>("modifiedTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("propertyID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("unitID")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -158,6 +188,9 @@ namespace Itworx_Backend.Repository.Migrations
 
                     b.Property<DateTime>("modifiedTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("propertyID")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -261,6 +294,12 @@ namespace Itworx_Backend.Repository.Migrations
                     b.Property<long>("Id")
                         .HasColumnType("bigint");
 
+                    b.Property<int>("AppTypeID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CodeSnippetID")
+                        .HasColumnType("int");
+
                     b.Property<string>("IconPath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -268,11 +307,17 @@ namespace Itworx_Backend.Repository.Migrations
                     b.Property<bool>("IsOnlyNested")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("ParentWidgetIDId")
+                    b.Property<long?>("ParentWidgetId")
                         .HasColumnType("bigint");
+
+                    b.Property<int>("PropertyID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("addedData")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("childID")
+                        .HasColumnType("int");
 
                     b.Property<string>("description")
                         .IsRequired()
@@ -281,15 +326,18 @@ namespace Itworx_Backend.Repository.Migrations
                     b.Property<DateTime>("modifiedTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("parentID")
+                        .HasColumnType("int");
+
                     b.Property<string>("title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentWidgetIDId")
+                    b.HasIndex("ParentWidgetId")
                         .IsUnique()
-                        .HasFilter("[ParentWidgetIDId] IS NOT NULL");
+                        .HasFilter("[ParentWidgetId] IS NOT NULL");
 
                     b.ToTable("Widget");
                 });
@@ -332,6 +380,12 @@ namespace Itworx_Backend.Repository.Migrations
                     b.Property<DateTime>("modifiedTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("propertyID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("widgetId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("WidgetProperty");
@@ -364,11 +418,11 @@ namespace Itworx_Backend.Repository.Migrations
 
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.Property", b =>
                 {
-                    b.HasOne("Itworx_Backend.Domain.Entities.Property", "ParentPropertyID")
-                        .WithOne("ChildPropertyID")
-                        .HasForeignKey("Itworx_Backend.Domain.Entities.Property", "ParentPropertyIDId");
+                    b.HasOne("Itworx_Backend.Domain.Entities.Property", "ParentProperty")
+                        .WithOne("ChildProperty")
+                        .HasForeignKey("Itworx_Backend.Domain.Entities.Property", "ParentPropertyId");
 
-                    b.Navigation("ParentPropertyID");
+                    b.Navigation("ParentProperty");
                 });
 
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.PropertyUnit", b =>
@@ -393,7 +447,7 @@ namespace Itworx_Backend.Repository.Migrations
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.PropertyValue", b =>
                 {
                     b.HasOne("Itworx_Backend.Domain.Entities.Property", "Property")
-                        .WithOne("Value")
+                        .WithOne("PropertyValue")
                         .HasForeignKey("Itworx_Backend.Domain.Entities.PropertyValue", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -403,19 +457,19 @@ namespace Itworx_Backend.Repository.Migrations
 
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.Widget", b =>
                 {
-                    b.HasOne("Itworx_Backend.Domain.Entities.AppType", "RelatedAppTypeID")
+                    b.HasOne("Itworx_Backend.Domain.Entities.AppType", "RelatedAppType")
                         .WithOne("Widget")
                         .HasForeignKey("Itworx_Backend.Domain.Entities.Widget", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Itworx_Backend.Domain.Entities.Widget", "ParentWidgetID")
-                        .WithOne("ChildWidgetID")
-                        .HasForeignKey("Itworx_Backend.Domain.Entities.Widget", "ParentWidgetIDId");
+                    b.HasOne("Itworx_Backend.Domain.Entities.Widget", "ParentWidget")
+                        .WithOne("ChildWidget")
+                        .HasForeignKey("Itworx_Backend.Domain.Entities.Widget", "ParentWidgetId");
 
-                    b.Navigation("ParentWidgetID");
+                    b.Navigation("ParentWidget");
 
-                    b.Navigation("RelatedAppTypeID");
+                    b.Navigation("RelatedAppType");
                 });
 
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.WidgetCodeSnippet", b =>
@@ -465,11 +519,11 @@ namespace Itworx_Backend.Repository.Migrations
 
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.Property", b =>
                 {
-                    b.Navigation("ChildPropertyID");
+                    b.Navigation("ChildProperty");
 
                     b.Navigation("PropertyUnit");
 
-                    b.Navigation("Value");
+                    b.Navigation("PropertyValue");
 
                     b.Navigation("WidgetProperty");
                 });
@@ -493,7 +547,7 @@ namespace Itworx_Backend.Repository.Migrations
 
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.Widget", b =>
                 {
-                    b.Navigation("ChildWidgetID");
+                    b.Navigation("ChildWidget");
 
                     b.Navigation("WidgetCodeSnippet");
 

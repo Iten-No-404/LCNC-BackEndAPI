@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Itworx_Backend.Repository.Migrations
 {
-    public partial class initdb : Migration
+    public partial class round6 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,7 +33,12 @@ namespace Itworx_Backend.Repository.Migrations
                     PropertyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsOnlyNested = table.Column<bool>(type: "bit", nullable: false),
-                    ParentPropertyIDId = table.Column<long>(type: "bigint", nullable: true),
+                    parentID = table.Column<int>(type: "int", nullable: false),
+                    ParentPropertyId = table.Column<long>(type: "bigint", nullable: true),
+                    childID = table.Column<int>(type: "int", nullable: false),
+                    UnitID = table.Column<int>(type: "int", nullable: false),
+                    ValueID = table.Column<int>(type: "int", nullable: false),
+                    widgetID = table.Column<int>(type: "int", nullable: false),
                     addedData = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modifiedTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -41,8 +46,8 @@ namespace Itworx_Backend.Repository.Migrations
                 {
                     table.PrimaryKey("PK_Property", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Property_Property_ParentPropertyIDId",
-                        column: x => x.ParentPropertyIDId,
+                        name: "FK_Property_Property_ParentPropertyId",
+                        column: x => x.ParentPropertyId,
                         principalTable: "Property",
                         principalColumn: "Id");
                 });
@@ -108,7 +113,12 @@ namespace Itworx_Backend.Repository.Migrations
                     description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IconPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsOnlyNested = table.Column<bool>(type: "bit", nullable: false),
-                    ParentWidgetIDId = table.Column<long>(type: "bigint", nullable: true),
+                    parentID = table.Column<int>(type: "int", nullable: false),
+                    ParentWidgetId = table.Column<long>(type: "bigint", nullable: true),
+                    childID = table.Column<int>(type: "int", nullable: false),
+                    AppTypeID = table.Column<int>(type: "int", nullable: false),
+                    PropertyID = table.Column<int>(type: "int", nullable: false),
+                    CodeSnippetID = table.Column<int>(type: "int", nullable: false),
                     addedData = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modifiedTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -122,8 +132,8 @@ namespace Itworx_Backend.Repository.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Widget_Widget_ParentWidgetIDId",
-                        column: x => x.ParentWidgetIDId,
+                        name: "FK_Widget_Widget_ParentWidgetId",
+                        column: x => x.ParentWidgetId,
                         principalTable: "Widget",
                         principalColumn: "Id");
                 });
@@ -134,6 +144,7 @@ namespace Itworx_Backend.Repository.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    propertyID = table.Column<int>(type: "int", nullable: false),
                     IsDefault = table.Column<bool>(type: "bit", nullable: false),
                     addedData = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modifiedTime = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -154,6 +165,8 @@ namespace Itworx_Backend.Repository.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
+                    propertyID = table.Column<int>(type: "int", nullable: false),
+                    unitID = table.Column<int>(type: "int", nullable: false),
                     IsDefault = table.Column<bool>(type: "bit", nullable: false),
                     addedData = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modifiedTime = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -184,6 +197,9 @@ namespace Itworx_Backend.Repository.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GeneratedAppPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AppTypeId = table.Column<int>(type: "int", nullable: false),
+                    targetFrameworkId = table.Column<int>(type: "int", nullable: false),
+                    user_Id = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<long>(type: "bigint", nullable: true),
                     Widgets = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     addedData = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -216,7 +232,8 @@ namespace Itworx_Backend.Repository.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
-                    CoddeSnippet = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TargetFramworkId = table.Column<int>(type: "int", nullable: false),
+                    CodeSnippet = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     addedData = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modifiedTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -242,7 +259,9 @@ namespace Itworx_Backend.Repository.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
+                    widgetId = table.Column<int>(type: "int", nullable: false),
                     DefaultValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    propertyID = table.Column<int>(type: "int", nullable: false),
                     addedData = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modifiedTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -269,18 +288,18 @@ namespace Itworx_Backend.Repository.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Property_ParentPropertyIDId",
+                name: "IX_Property_ParentPropertyId",
                 table: "Property",
-                column: "ParentPropertyIDId",
+                column: "ParentPropertyId",
                 unique: true,
-                filter: "[ParentPropertyIDId] IS NOT NULL");
+                filter: "[ParentPropertyId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Widget_ParentWidgetIDId",
+                name: "IX_Widget_ParentWidgetId",
                 table: "Widget",
-                column: "ParentWidgetIDId",
+                column: "ParentWidgetId",
                 unique: true,
-                filter: "[ParentWidgetIDId] IS NOT NULL");
+                filter: "[ParentWidgetId] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

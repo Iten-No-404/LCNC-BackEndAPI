@@ -14,15 +14,20 @@ namespace Itworx_Backend.Domain.Entities
 
         public bool IsOnlyNested { get; set; }
 
+        public int parentID { get; set; }
+        public virtual Property? ParentProperty { get; set; }
 
-        public virtual Property? ParentPropertyID { get; set; }
 
-        public virtual Property? ChildPropertyID { get; set; }
+        public int childID { get; set; }
+        public virtual Property? ChildProperty { get; set; }
 
+        public int UnitID { get; set; }
         public virtual PropertyUnit? PropertyUnit { get; set; }
 
-        public virtual PropertyValue? Value { get; set; }
+        public int ValueID { get; set; }
+        public virtual PropertyValue? PropertyValue { get; set; }
 
+        public int widgetID { get; set; }
         public virtual WidgetProperty? WidgetProperty { get; set; }
     }
 }

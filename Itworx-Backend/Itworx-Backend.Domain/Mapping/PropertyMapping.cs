@@ -17,7 +17,7 @@ namespace Itworx_Backend.Domain.Mapping
             entityBuilder.Property(x=>x.PropertyName).IsRequired();
             entityBuilder.Property(x=>x.Description).IsRequired();
             entityBuilder.Property(x=>x.IsOnlyNested);
-            entityBuilder.HasOne(u => u.ParentPropertyID).WithOne(y => y.ChildPropertyID);
+            entityBuilder.HasOne(u => u.ParentProperty).WithOne(y => y.ChildProperty);
         }
     }
 }

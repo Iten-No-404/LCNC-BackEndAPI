@@ -9,7 +9,7 @@ using Itworx_Backend.Service.Interfaces;
 
 namespace Itworx_Backend.Service.Services
 {
-    public class WidgetService : IServices<Widget>
+    public class WidgetService : Iwidget<Widget>
     {
         private readonly iRepository<Widget> _WidgetRepository;
         public WidgetService(iRepository<Widget> WidgetRepository)
@@ -65,6 +65,30 @@ namespace Itworx_Backend.Service.Services
                 {
                     return null;
                 }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public Widget GetWidget(string title)
+        {
+            try
+            {
+                if (title.Length != 0)
+                {
+                    var obj = _WidgetRepository.GetTitle(title);
+                    if (obj != null)
+                    {
+                        return obj;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                return null;
             }
             catch (Exception)
             {

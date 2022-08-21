@@ -14,14 +14,19 @@ namespace Itworx_Backend.Domain.Entities
 
         public bool IsOnlyNested { get; set; }
 
-        public virtual Widget? ParentWidgetID { get; set; }
+        public int parentID { get; set; }
+        public virtual Widget? ParentWidget { get; set; }
 
-        public virtual Widget? ChildWidgetID { get; set; }
+        public int childID { get; set; }
+        public virtual Widget? ChildWidget { get; set; }
 
-        public virtual AppType? RelatedAppTypeID { get; set; }
+        public int AppTypeID { get; set; }
+        public virtual AppType? RelatedAppType { get; set; }
 
+        public int PropertyID { get; set; }
         public virtual WidgetProperty? WidgetProperty { get; set; }
 
+        public int CodeSnippetID { get; set; }
         public virtual WidgetCodeSnippet? WidgetCodeSnippet { get; set; }
 
     }
