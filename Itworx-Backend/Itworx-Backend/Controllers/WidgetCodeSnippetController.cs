@@ -12,18 +12,21 @@ namespace Itworx_Backend.Controllers
     {
         private readonly IServices<WidgetCodeSnippet> _widgetCodeSnippetService;
         private readonly ItargetFramework<TargetFramework> _targetFrameworkService;
-
+        private readonly Iwidget<Widget> _widgetService;
         public WidgetCodeSnippetController(IServices<WidgetCodeSnippet> widgetCodeSnippetService, 
-                ItargetFramework<TargetFramework> targetFrameworkService)
+                ItargetFramework<TargetFramework> targetFrameworkService,
+                Iwidget<Widget> widgetService)
         {
             _widgetCodeSnippetService = widgetCodeSnippetService;
             _targetFrameworkService = targetFrameworkService;
+            _widgetService = widgetService;
         }
 
         [HttpPost("create")]
         public IActionResult CreateWidgetCodeSnippet(WidgetCodeSnippet widgetCodeSnippet)
         {
             widgetCodeSnippet.TargetFramework = _targetFrameworkService.Get(widgetCodeSnippet.TargetFramworkId);
+            widgetCodeSnippet.Widget = _widgetService.Get(widgetCodeSnippet.widgetId);
             if (widgetCodeSnippet == null || widgetCodeSnippet.CodeSnippet == "")
             {
                 return BadRequest("Missing or invalid data");
