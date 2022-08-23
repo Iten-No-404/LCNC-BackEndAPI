@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Itworx_Backend.Service.Services
 {
-    public class ProjectService : IServices<Project>
+    public class ProjectService : Iproject<Project>
     {
         private readonly iRepository<Project> _ProjectRepository;
         public ProjectService(iRepository<Project> ProjectRepository)
@@ -57,6 +57,26 @@ namespace Itworx_Backend.Service.Services
             try
             {
                 var obj = _ProjectRepository.GetAll();
+                if (obj != null)
+                {
+                    return obj;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public Project GetbyUserID(int UserID)
+        {
+            try
+            {
+                var obj = _ProjectRepository.GetbyUserID(UserID);
                 if (obj != null)
                 {
                     return obj;

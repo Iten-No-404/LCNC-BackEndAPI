@@ -20,6 +20,7 @@ namespace Itworx_Backend.Repository.Repository
         private DbSet<AppType> Appentities;
         private DbSet<Unit> Unitentities;
         private DbSet<Widget> Widgetentities;
+        private DbSet<Project> Projectentities;
 
         #endregion
 
@@ -33,6 +34,7 @@ namespace Itworx_Backend.Repository.Repository
             Appentities = _applicationDbContext.Set<AppType>();
             Unitentities = _applicationDbContext.Set<Unit>();
             Widgetentities = _applicationDbContext.Set<Widget>();
+            Projectentities = _applicationDbContext.Set<Project>();
         }
         #endregion
         public void Delete(T entity)
@@ -75,6 +77,11 @@ namespace Itworx_Backend.Repository.Repository
             return Widgetentities.SingleOrDefault(c => c.title == title);
         }
 
+
+        public Project GetbyUserID(int userID)
+        {
+            return Projectentities.SingleOrDefault(c => c.user_Id == userID);
+        }
         public IEnumerable<T> GetAll()
         {
             return entities.AsEnumerable();

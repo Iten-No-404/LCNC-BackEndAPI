@@ -21,6 +21,8 @@ namespace Itworx_Backend.Repository.Repository
         Unit Getname(string Name);
 
         Widget GetTitle(string title);
+
+        Project GetbyUserID(int userID);
         void Insert(T entity);
         void Update(T entity);
         void Delete(T entity);

@@ -10,6 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(item => item.UseSqlServer(builder.Configuration.GetConnectionString("myconn")));
 
+builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -27,11 +32,11 @@ builder.Services.AddScoped<IServices<PropertyUnit>, PropertyUnitService>();
 builder.Services.AddScoped<IServices<PropertyValue>, PropertyValueService>();
 builder.Services.AddScoped<ItargetFramework<TargetFramework>, TargetFrameworkService>();
 builder.Services.AddScoped<IappType<AppType>, AppTypeService>();
-builder.Services.AddScoped<IServices<Project>, ProjectService>();
+builder.Services.AddScoped<Iproject<Project>, ProjectService>();
 #endregion
 
 var app = builder.Build();
-
+app.UseCors("corsapp");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
