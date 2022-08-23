@@ -27,7 +27,7 @@ builder.Services.AddScoped<IServices<PropertyUnit>, PropertyUnitService>();
 builder.Services.AddScoped<IServices<PropertyValue>, PropertyValueService>();
 builder.Services.AddScoped<ItargetFramework<TargetFramework>, TargetFrameworkService>();
 builder.Services.AddScoped<IappType<AppType>, AppTypeService>();
-builder.Services.AddScoped<IServices<Project>, ProjectService>();
+builder.Services.AddScoped<Iproject<Project>, ProjectService>();
 #endregion
 
 var app = builder.Build();
