@@ -60,7 +60,7 @@ namespace Itworx_Backend.Controllers
             }
         }
 
-        [HttpGet("Login")]
+        [HttpPost("Login")]
         public IActionResult Login([FromBody] dynamic body)
         {
 
