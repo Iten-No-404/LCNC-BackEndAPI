@@ -15,6 +15,8 @@ namespace Itworx_Backend.Domain.Entities
 
         public int TargetFramworkId { get; set; }
         public int widgetId { get; set; }
-        public string CodeSnippet { get; set; }
+        public string code1 { get; set; }
+        public string code2 { get; set; }
+
     }
 }

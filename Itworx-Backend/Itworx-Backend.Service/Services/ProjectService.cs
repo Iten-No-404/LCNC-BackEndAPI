@@ -72,7 +72,7 @@ namespace Itworx_Backend.Service.Services
             }
         }
 
-        public Project GetbyUserID(int UserID)
+        public IEnumerable<Project> GetbyUserID(int UserID)
         {
             try
             {

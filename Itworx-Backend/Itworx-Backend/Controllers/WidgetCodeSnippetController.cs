@@ -10,10 +10,10 @@ namespace Itworx_Backend.Controllers
     [ApiController]
     public class WidgetCodeSnippetController : ControllerBase
     {
-        private readonly IServices<WidgetCodeSnippet> _widgetCodeSnippetService;
+        private readonly ICodeSnippet<WidgetCodeSnippet> _widgetCodeSnippetService;
         private readonly ItargetFramework<TargetFramework> _targetFrameworkService;
         private readonly Iwidget<Widget> _widgetService;
-        public WidgetCodeSnippetController(IServices<WidgetCodeSnippet> widgetCodeSnippetService, 
+        public WidgetCodeSnippetController(ICodeSnippet<WidgetCodeSnippet> widgetCodeSnippetService, 
                 ItargetFramework<TargetFramework> targetFrameworkService,
                 Iwidget<Widget> widgetService)
         {
@@ -27,7 +27,7 @@ namespace Itworx_Backend.Controllers
         {
             widgetCodeSnippet.TargetFramework = _targetFrameworkService.Get(widgetCodeSnippet.TargetFramworkId);
             widgetCodeSnippet.Widget = _widgetService.Get(widgetCodeSnippet.widgetId);
-            if (widgetCodeSnippet == null || widgetCodeSnippet.CodeSnippet == "")
+            if (widgetCodeSnippet == null || widgetCodeSnippet.code1 == "")
             {
                 return BadRequest("Missing or invalid data");
             }

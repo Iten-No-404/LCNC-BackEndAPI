@@ -53,7 +53,7 @@ namespace Itworx_Backend.Controllers
             {
                 project.AppType = _AppTypeService.Get(project.AppTypeId);
                 project.User = _UserService.Get(project.user_Id);
-                project.TargetFramework = _TargetFrameworkService.Get(project.targetFrameworkId);
+                project.TargetFramework = _TargetFrameworkService.Get(project.targetFramework_Id);
                 _ProjectService.Insert(project);
                 return Ok("Inserted Successfully");
             }

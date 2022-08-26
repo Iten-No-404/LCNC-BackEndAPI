@@ -17,8 +17,8 @@ namespace Itworx_Backend.Domain.Mapping
             entityBuilder.Property(x => x.Title).IsRequired();
             entityBuilder.Property(x => x.CreationDate).IsRequired();
             entityBuilder.HasOne(t => t.User).WithMany(u => u.Project); // not sure of this
-            entityBuilder.HasOne(t => t.AppType).WithOne(u => u.Project).HasForeignKey<Project>(x => x.Id);
-            entityBuilder.HasOne(t => t.TargetFramework).WithOne(u => u.Project).HasForeignKey<Project>(x => x.Id);
+            entityBuilder.HasOne(t => t.AppType).WithMany(u => u.ProjectList);
+            entityBuilder.HasOne(t => t.TargetFramework).WithMany(u => u.ProjectList);
             entityBuilder.Property(x => x.GeneratedAppPath).IsRequired();
             entityBuilder.Property(x => x.Widgets).IsRequired();
             entityBuilder.Property(x => x.Description).IsRequired();

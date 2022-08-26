@@ -19,7 +19,7 @@ namespace Itworx_Backend.Domain.Entities
         public virtual AppType ? AppType { get; set; }
 
 
-        public int targetFrameworkId { get; set; }
+        public int targetFramework_Id { get; set; }
         public virtual TargetFramework ? TargetFramework { get; set; }
 
         public int user_Id { get; set; } 

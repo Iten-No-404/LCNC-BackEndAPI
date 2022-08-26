@@ -14,12 +14,13 @@ namespace Itworx_Backend.Domain.Mapping
         public void Configure (EntityTypeBuilder<Widget> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
-            entityBuilder.Property(x=>x.title).IsRequired();
+            entityBuilder.Property(x=>x.text).IsRequired();
+            entityBuilder.Property(x=>x.type).IsRequired();
             entityBuilder.Property(x=>x.description).IsRequired();
             entityBuilder.HasOne(u => u.ParentWidget).WithOne(y => y.ChildWidget);
             entityBuilder.Property(x=>x.IconPath).IsRequired();
             entityBuilder.Property(x => x.IsOnlyNested);
-            entityBuilder.HasOne(u => u.RelatedAppType).WithOne(y => y.Widget).HasForeignKey<Widget>(x => x.Id);
+            entityBuilder.HasOne(u => u.RelatedAppType).WithMany(y => y.Widget);
         }
     }
 }

@@ -8,7 +8,8 @@ namespace Itworx_Backend.Domain.Entities
 {
     public class Widget : baseEntity
     {
-        public string title { get; set; }
+        public string type { get; set; }
+        public string text { get; set; }
         public string description { get; set; }
         public string IconPath { get; set; }
 

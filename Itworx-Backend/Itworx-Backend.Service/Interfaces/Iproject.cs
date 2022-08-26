@@ -12,7 +12,7 @@ namespace Itworx_Backend.Service.Interfaces
         IEnumerable<T> GetAll();
         T Get(int Id);
 
-        Project GetbyUserID(int UserID);
+        IEnumerable<Project> GetbyUserID(int UserID);
         void Insert(T entity);
         void Update(T entity);
         void Delete(T entity);

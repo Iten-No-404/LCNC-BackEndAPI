@@ -11,10 +11,14 @@ namespace Itworx_Backend.Controllers
     {
         private readonly Iwidget<Widget> _WidgetService;
         private readonly IappType<AppType> _AppTypeService;
-        public WidgetController(Iwidget<Widget> WidgetService, IappType<AppType> AppTypeService)
+        private readonly ICodeSnippet<WidgetCodeSnippet> _widgetCodeSnippetService;
+
+        public WidgetController(Iwidget<Widget> WidgetService, IappType<AppType> AppTypeService,
+                     ICodeSnippet<WidgetCodeSnippet> widgetCodeSnippetService)
         {
             _WidgetService = WidgetService;
             _AppTypeService = AppTypeService;
+            _widgetCodeSnippetService = widgetCodeSnippetService;
         }
 
         [HttpGet("{id}")]
@@ -22,6 +26,7 @@ namespace Itworx_Backend.Controllers
         public IActionResult getWidget(int id)
         {
             var widget = _WidgetService.Get(id);
+            widget.WidgetCodeSnippet = _widgetCodeSnippetService.GetSnippet(id);
             if (widget != null)
                 return Ok(widget);
             return BadRequest("widget not found");
@@ -31,8 +36,9 @@ namespace Itworx_Backend.Controllers
 
         public IActionResult addWidget(Widget widget)
         {
-            if (widget != null && widget.title.Length != 0 && widget.description.Length !=0)
+            if (widget != null && widget.text.Length != 0 && widget.description.Length !=0)
             {
+
                 widget.IsOnlyNested = widget.IsOnlyNested? widget.IsOnlyNested : false;
                 widget.RelatedAppType = _AppTypeService.Get(widget.AppTypeID);
                 _WidgetService.Insert(widget);
@@ -45,9 +51,15 @@ namespace Itworx_Backend.Controllers
 
         public IActionResult GetAllWidgets()
         {
-            var widgets = _WidgetService.GetAll();
-            if(widgets != null)
-                return Ok(widgets);
+            var items = _WidgetService.GetAll();
+            if (items != null)
+            {
+                foreach (var item in items)
+                {
+                    item.WidgetCodeSnippet = _widgetCodeSnippetService.GetSnippet((int)item.Id);
+                }
+                return Ok(items);
+            }
             return BadRequest(" There are no widget yet");
         }
 

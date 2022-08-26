@@ -22,7 +22,8 @@ namespace Itworx_Backend.Repository.Repository
 
         Widget GetTitle(string title);
 
-        Project GetbyUserID(int userID);
+        WidgetCodeSnippet GetCodeSnippet(int id);
+        IEnumerable<Project> GetbyUserID(int userID);
         void Insert(T entity);
         void Update(T entity);
         void Delete(T entity);

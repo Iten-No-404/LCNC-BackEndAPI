@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Itworx_Backend.Repository.Migrations
 {
-    public partial class round6 : Migration
+    public partial class initdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -108,8 +108,10 @@ namespace Itworx_Backend.Repository.Migrations
                 name: "Widget",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IconPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsOnlyNested = table.Column<bool>(type: "bit", nullable: false),
@@ -117,6 +119,7 @@ namespace Itworx_Backend.Repository.Migrations
                     ParentWidgetId = table.Column<long>(type: "bigint", nullable: true),
                     childID = table.Column<int>(type: "int", nullable: false),
                     AppTypeID = table.Column<int>(type: "int", nullable: false),
+                    RelatedAppTypeId = table.Column<long>(type: "bigint", nullable: true),
                     PropertyID = table.Column<int>(type: "int", nullable: false),
                     CodeSnippetID = table.Column<int>(type: "int", nullable: false),
                     addedData = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -126,11 +129,10 @@ namespace Itworx_Backend.Repository.Migrations
                 {
                     table.PrimaryKey("PK_Widget", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Widget_AppType_Id",
-                        column: x => x.Id,
+                        name: "FK_Widget_AppType_RelatedAppTypeId",
+                        column: x => x.RelatedAppTypeId,
                         principalTable: "AppType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Widget_Widget_ParentWidgetId",
                         column: x => x.ParentWidgetId,
@@ -192,13 +194,16 @@ namespace Itworx_Backend.Repository.Migrations
                 name: "Project",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GeneratedAppPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AppTypeId = table.Column<int>(type: "int", nullable: false),
-                    targetFrameworkId = table.Column<int>(type: "int", nullable: false),
+                    AppTypeId1 = table.Column<long>(type: "bigint", nullable: true),
+                    targetFramework_Id = table.Column<int>(type: "int", nullable: false),
+                    TargetFrameworkId = table.Column<long>(type: "bigint", nullable: true),
                     user_Id = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<long>(type: "bigint", nullable: true),
                     Widgets = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -209,17 +214,15 @@ namespace Itworx_Backend.Repository.Migrations
                 {
                     table.PrimaryKey("PK_Project", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Project_AppType_Id",
-                        column: x => x.Id,
+                        name: "FK_Project_AppType_AppTypeId1",
+                        column: x => x.AppTypeId1,
                         principalTable: "AppType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Project_TargetFramework_Id",
-                        column: x => x.Id,
+                        name: "FK_Project_TargetFramework_TargetFrameworkId",
+                        column: x => x.TargetFrameworkId,
                         principalTable: "TargetFramework",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Project_User_UserId",
                         column: x => x.UserId,
@@ -232,8 +235,11 @@ namespace Itworx_Backend.Repository.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
+                    TargetFrameworkId = table.Column<long>(type: "bigint", nullable: true),
                     TargetFramworkId = table.Column<int>(type: "int", nullable: false),
-                    CodeSnippet = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    widgetId = table.Column<int>(type: "int", nullable: false),
+                    code1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    code2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     addedData = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modifiedTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -241,11 +247,10 @@ namespace Itworx_Backend.Repository.Migrations
                 {
                     table.PrimaryKey("PK_WidgetCodeSnippet", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WidgetCodeSnippet_TargetFramework_Id",
-                        column: x => x.Id,
+                        name: "FK_WidgetCodeSnippet_TargetFramework_TargetFrameworkId",
+                        column: x => x.TargetFrameworkId,
                         principalTable: "TargetFramework",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_WidgetCodeSnippet_Widget_Id",
                         column: x => x.Id,
@@ -283,6 +288,16 @@ namespace Itworx_Backend.Repository.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Project_AppTypeId1",
+                table: "Project",
+                column: "AppTypeId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Project_TargetFrameworkId",
+                table: "Project",
+                column: "TargetFrameworkId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Project_UserId",
                 table: "Project",
                 column: "UserId");
@@ -300,6 +315,16 @@ namespace Itworx_Backend.Repository.Migrations
                 column: "ParentWidgetId",
                 unique: true,
                 filter: "[ParentWidgetId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Widget_RelatedAppTypeId",
+                table: "Widget",
+                column: "RelatedAppTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WidgetCodeSnippet_TargetFrameworkId",
+                table: "WidgetCodeSnippet",
+                column: "TargetFrameworkId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

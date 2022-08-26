@@ -9,7 +9,7 @@ using Itworx_Backend.Service.Interfaces;
 
 namespace Itworx_Backend.Service.Services
 {
-    public class WidgetCodeSnippetService : IServices<WidgetCodeSnippet>
+    public class WidgetCodeSnippetService : ICodeSnippet<WidgetCodeSnippet>
     {
         private readonly iRepository<WidgetCodeSnippet> _WidgetCodeSnippetRepository;
         public WidgetCodeSnippetService(iRepository<WidgetCodeSnippet> WidgetCodeSnippetRepository)
@@ -57,6 +57,26 @@ namespace Itworx_Backend.Service.Services
             try
             {
                 var obj = _WidgetCodeSnippetRepository.GetAll();
+                if (obj != null)
+                {
+                    return obj;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public WidgetCodeSnippet GetSnippet(int Id)
+        {
+            try
+            {
+                var obj = _WidgetCodeSnippetRepository.GetCodeSnippet(Id);
                 if (obj != null)
                 {
                     return obj;

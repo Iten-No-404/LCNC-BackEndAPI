@@ -48,10 +48,16 @@ namespace Itworx_Backend.Repository.Migrations
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.Project", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<int>("AppTypeId")
                         .HasColumnType("int");
+
+                    b.Property<long?>("AppTypeId1")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -63,6 +69,9 @@ namespace Itworx_Backend.Repository.Migrations
                     b.Property<string>("GeneratedAppPath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("TargetFrameworkId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -81,13 +90,17 @@ namespace Itworx_Backend.Repository.Migrations
                     b.Property<DateTime>("modifiedTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("targetFrameworkId")
+                    b.Property<int>("targetFramework_Id")
                         .HasColumnType("int");
 
                     b.Property<int>("user_Id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppTypeId1");
+
+                    b.HasIndex("TargetFrameworkId");
 
                     b.HasIndex("UserId");
 
@@ -292,7 +305,10 @@ namespace Itworx_Backend.Repository.Migrations
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.Widget", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<int>("AppTypeID")
                         .HasColumnType("int");
@@ -313,6 +329,9 @@ namespace Itworx_Backend.Repository.Migrations
                     b.Property<int>("PropertyID")
                         .HasColumnType("int");
 
+                    b.Property<long?>("RelatedAppTypeId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("addedData")
                         .HasColumnType("datetime2");
 
@@ -329,7 +348,11 @@ namespace Itworx_Backend.Repository.Migrations
                     b.Property<int>("parentID")
                         .HasColumnType("int");
 
-                    b.Property<string>("title")
+                    b.Property<string>("text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -339,6 +362,8 @@ namespace Itworx_Backend.Repository.Migrations
                         .IsUnique()
                         .HasFilter("[ParentWidgetId] IS NOT NULL");
 
+                    b.HasIndex("RelatedAppTypeId");
+
                     b.ToTable("Widget");
                 });
 
@@ -347,15 +372,22 @@ namespace Itworx_Backend.Repository.Migrations
                     b.Property<long>("Id")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("CodeSnippet")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long?>("TargetFrameworkId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("TargetFramworkId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("addedData")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("code1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("code2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("modifiedTime")
                         .HasColumnType("datetime2");
@@ -364,6 +396,8 @@ namespace Itworx_Backend.Repository.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TargetFrameworkId");
 
                     b.ToTable("WidgetCodeSnippet");
                 });
@@ -397,16 +431,12 @@ namespace Itworx_Backend.Repository.Migrations
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.Project", b =>
                 {
                     b.HasOne("Itworx_Backend.Domain.Entities.AppType", "AppType")
-                        .WithOne("Project")
-                        .HasForeignKey("Itworx_Backend.Domain.Entities.Project", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("ProjectList")
+                        .HasForeignKey("AppTypeId1");
 
                     b.HasOne("Itworx_Backend.Domain.Entities.TargetFramework", "TargetFramework")
-                        .WithOne("Project")
-                        .HasForeignKey("Itworx_Backend.Domain.Entities.Project", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("ProjectList")
+                        .HasForeignKey("TargetFrameworkId");
 
                     b.HasOne("Itworx_Backend.Domain.Entities.User", "User")
                         .WithMany("Project")
@@ -460,15 +490,13 @@ namespace Itworx_Backend.Repository.Migrations
 
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.Widget", b =>
                 {
-                    b.HasOne("Itworx_Backend.Domain.Entities.AppType", "RelatedAppType")
-                        .WithOne("Widget")
-                        .HasForeignKey("Itworx_Backend.Domain.Entities.Widget", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Itworx_Backend.Domain.Entities.Widget", "ParentWidget")
                         .WithOne("ChildWidget")
                         .HasForeignKey("Itworx_Backend.Domain.Entities.Widget", "ParentWidgetId");
+
+                    b.HasOne("Itworx_Backend.Domain.Entities.AppType", "RelatedAppType")
+                        .WithMany("Widget")
+                        .HasForeignKey("RelatedAppTypeId");
 
                     b.Navigation("ParentWidget");
 
@@ -477,17 +505,15 @@ namespace Itworx_Backend.Repository.Migrations
 
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.WidgetCodeSnippet", b =>
                 {
-                    b.HasOne("Itworx_Backend.Domain.Entities.TargetFramework", "TargetFramework")
-                        .WithOne("WidgetCodeSnippet")
-                        .HasForeignKey("Itworx_Backend.Domain.Entities.WidgetCodeSnippet", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Itworx_Backend.Domain.Entities.Widget", "Widget")
                         .WithOne("WidgetCodeSnippet")
                         .HasForeignKey("Itworx_Backend.Domain.Entities.WidgetCodeSnippet", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Itworx_Backend.Domain.Entities.TargetFramework", "TargetFramework")
+                        .WithMany("WidgetCodeSnippet")
+                        .HasForeignKey("TargetFrameworkId");
 
                     b.Navigation("TargetFramework");
 
@@ -515,7 +541,7 @@ namespace Itworx_Backend.Repository.Migrations
 
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.AppType", b =>
                 {
-                    b.Navigation("Project");
+                    b.Navigation("ProjectList");
 
                     b.Navigation("Widget");
                 });
@@ -533,7 +559,7 @@ namespace Itworx_Backend.Repository.Migrations
 
             modelBuilder.Entity("Itworx_Backend.Domain.Entities.TargetFramework", b =>
                 {
-                    b.Navigation("Project");
+                    b.Navigation("ProjectList");
 
                     b.Navigation("WidgetCodeSnippet");
                 });
