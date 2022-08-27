@@ -23,6 +23,8 @@ namespace Itworx_Backend.Repository.Repository
         Widget GetTitle(string title);
 
         WidgetCodeSnippet GetCodeSnippet(int id);
+
+        PropertyValue GetProperty(int ID);
         IEnumerable<Project> GetbyUserID(int userID);
         void Insert(T entity);
         void Update(T entity);

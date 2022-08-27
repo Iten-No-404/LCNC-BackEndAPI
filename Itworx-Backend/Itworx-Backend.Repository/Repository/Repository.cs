@@ -22,6 +22,7 @@ namespace Itworx_Backend.Repository.Repository
         private DbSet<Widget> Widgetentities;
         private DbSet<Project> Projectentities;
         private DbSet<WidgetCodeSnippet> WidgetCodeSnippetentities;
+        private DbSet<PropertyValue> PropertyValueentities;
 
         #endregion
 
@@ -37,6 +38,7 @@ namespace Itworx_Backend.Repository.Repository
             Widgetentities = _applicationDbContext.Set<Widget>();
             Projectentities = _applicationDbContext.Set<Project>();
             WidgetCodeSnippetentities = _applicationDbContext.Set<WidgetCodeSnippet>();
+            PropertyValueentities = _applicationDbContext.Set<PropertyValue>();
         }
         #endregion
         public void Delete(T entity)
@@ -88,6 +90,12 @@ namespace Itworx_Backend.Repository.Repository
         public WidgetCodeSnippet GetCodeSnippet(int id)
         {
             return WidgetCodeSnippetentities.SingleOrDefault(c => c.widgetId == id);
+        }
+
+
+        public PropertyValue GetProperty(int ID)
+        {
+            return PropertyValueentities.SingleOrDefault(c => c.propertyID == ID);
         }
         public IEnumerable<T> GetAll()
         {

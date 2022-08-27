@@ -9,7 +9,7 @@ using Itworx_Backend.Service.Interfaces;
 
 namespace Itworx_Backend.Service.Services
 {
-    public class PropertyValueService : IServices<PropertyValue>
+    public class PropertyValueService : IPropertyValue<PropertyValue>
     {
         private readonly iRepository<PropertyValue> _PropertyValueRepository;
         public PropertyValueService(iRepository<PropertyValue> PropertyValueRepository)
@@ -57,6 +57,26 @@ namespace Itworx_Backend.Service.Services
             try
             {
                 var obj = _PropertyValueRepository.GetAll();
+                if (obj != null)
+                {
+                    return obj;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public PropertyValue GetProperty(int ID)
+        {
+            try
+            {
+                var obj = _PropertyValueRepository.GetProperty(ID);
                 if (obj != null)
                 {
                     return obj;

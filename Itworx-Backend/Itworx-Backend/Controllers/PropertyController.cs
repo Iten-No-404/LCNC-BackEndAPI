@@ -10,9 +10,13 @@ namespace Itworx_Backend.Controllers
     public class PropertyController : ControllerBase
     {
         private readonly IServices<Property> _PropertyService;
-        public PropertyController(IServices<Property> PropertyService)
+        private readonly IPropertyValue<PropertyValue> _PropertyValueService;
+
+        public PropertyController(IServices<Property> PropertyService,
+            IPropertyValue<PropertyValue> PropertyValueService)
         {
             _PropertyService = PropertyService;
+            _PropertyValueService = PropertyValueService;
         }
 
         [HttpGet("All")]
@@ -30,6 +34,7 @@ namespace Itworx_Backend.Controllers
         public IActionResult GetProperty(int id)
         {
             var obj = _PropertyService.Get(id);
+            obj.PropertyValue = _PropertyValueService.GetProperty(id);
             if (obj == null)
                 return NotFound();
             return Ok(obj);
