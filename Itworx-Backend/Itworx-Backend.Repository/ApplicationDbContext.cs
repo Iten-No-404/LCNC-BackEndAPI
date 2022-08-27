@@ -28,6 +28,8 @@ namespace Itworx_Backend.Repository
             builder.ApplyConfiguration(new UnitMapping());
             builder.ApplyConfiguration(new PropertyUnitMapping());
             builder.ApplyConfiguration(new PropertyValueMapping());
+            builder.ApplyConfiguration(new ImageFileMapping());
+
 
             base.OnModelCreating(builder);
         }

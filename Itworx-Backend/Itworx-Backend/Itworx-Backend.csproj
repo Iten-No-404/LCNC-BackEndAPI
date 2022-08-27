@@ -29,4 +29,8 @@
     <ProjectReference Include="..\Itworx-Backend.Service\Itworx-Backend.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="images\" />
+  </ItemGroup>
+
 </Project>
