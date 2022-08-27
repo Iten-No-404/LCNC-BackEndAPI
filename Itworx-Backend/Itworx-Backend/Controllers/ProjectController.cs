@@ -59,6 +59,17 @@ namespace Itworx_Backend.Controllers
             }
             return BadRequest("Make sure you have entered everything correctly");
         }
-         
+
+        [HttpPut("Update")]
+
+        public IActionResult updateProject(Project project)
+        {
+            if (project != null && project.Title.Length != 0 && project.Description.Length != 0)
+            {
+                _ProjectService.Update(project);
+                return Ok(project);
+            }
+            return BadRequest("Make sure you have entered everything correctly");
+        }
     }
 }
