@@ -47,7 +47,9 @@ namespace Itworx_Backend.Controllers
                     User.modifiedTime = DateTime.Now;
                     User.addedData = DateTime.Now;
                     _UserService.Insert(User);
-                    return Ok("Created Successfully");
+                    var obj = _UserService.Get(User.Email);
+                    return Ok(obj);
+                    // return Ok("Created Successfully");
                 }
                 else
                 {
