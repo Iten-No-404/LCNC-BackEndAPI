@@ -31,7 +31,7 @@ builder.Services.AddScoped<ICodeSnippet<WidgetCodeSnippet>, WidgetCodeSnippetSer
 builder.Services.AddScoped<IServices<WidgetProperty>, WidgetPropertyService>();
 builder.Services.AddScoped<IServices<Property>, PropertyService>();
 builder.Services.AddScoped<IServices<PropertyUnit>, PropertyUnitService>();
-builder.Services.AddScoped<IServices<PropertyValue>, PropertyValueService>();
+builder.Services.AddScoped<IPropertyValue<PropertyValue>, PropertyValueService>();
 builder.Services.AddScoped<ItargetFramework<TargetFramework>, TargetFrameworkService>();
 builder.Services.AddScoped<IappType<AppType>, AppTypeService>();
 builder.Services.AddScoped<Iproject<Project>, ProjectService>();
