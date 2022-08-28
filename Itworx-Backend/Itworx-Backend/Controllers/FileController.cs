@@ -15,12 +15,12 @@ namespace Itworx_Backend.Controllers
         {
             try
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "images", file.ImageName);
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "..//..//..//", "CodedSummer2022_LCNC_T6_Frontend//itworx//public", file.ImageName);
                 using (Stream stream = new FileStream(path, FileMode.Create))
                 {
                     file.Image.CopyTo(stream);
                 }
-                return Ok(path);
+                return Ok("../"+file.ImageName);
             }
             catch (Exception ex)
             {

@@ -55,7 +55,8 @@ namespace Itworx_Backend.Controllers
                 project.User = _UserService.Get(project.user_Id);
                 project.TargetFramework = _TargetFrameworkService.Get(project.targetFramework_Id);
                 _ProjectService.Insert(project);
-                return Ok("Inserted Successfully");
+                return Ok(project);
+                // return Ok("Inserted Successfully");
             }
             return BadRequest("Make sure you have entered everything correctly");
         }
