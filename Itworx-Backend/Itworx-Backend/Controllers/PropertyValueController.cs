@@ -9,10 +9,10 @@ namespace Itworx_Backend.Controllers
     [ApiController]
     public class PropertyValueController : ControllerBase
     {
-        private readonly IServices<PropertyValue> _PropertyValueService;
+        private readonly IPropertyValue<PropertyValue> _PropertyValueService;
         private readonly IServices<Property> _PropertyService;
 
-        public PropertyValueController(IServices<PropertyValue> PropertyValueService,
+        public PropertyValueController(IPropertyValue<PropertyValue> PropertyValueService,
             IServices<Property> PropertyService)
         {
             _PropertyValueService = PropertyValueService;
