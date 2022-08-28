@@ -51,7 +51,7 @@ namespace Itworx_Backend.Controllers
 
             prop.ParentProperty =  prop.parentID.ToString().Length == 0 ?  null : _PropertyService.Get(prop.parentID);
             _PropertyService.Insert(prop);
-            return Ok("Created Successfully");
+            return Ok(prop);
 
         }
 
