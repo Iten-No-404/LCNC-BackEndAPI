@@ -20,7 +20,7 @@ namespace Itworx_Backend.Controllers
                 {
                     file.Image.CopyTo(stream);
                 }
-                return Ok("../"+file.ImageName);
+                return Ok("/"+file.ImageName);
             }
             catch (Exception ex)
             {
