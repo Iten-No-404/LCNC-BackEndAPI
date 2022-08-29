@@ -5,6 +5,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Itworx_Backend.Service.Interfaces;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Itworx_Backend.Controllers
 {
@@ -12,13 +18,13 @@ namespace Itworx_Backend.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly IConfiguration _config;
         private readonly IuserServices<User> _UserService;
-        public UserController(IuserServices<User> UserService)
+        public UserController(IConfiguration config, IuserServices<User> UserService)
         {
+            _config = config;
             _UserService = UserService;
         }
-
-
 
         [HttpGet("{id}")]
         public IActionResult GetUserById(int id)
@@ -33,6 +39,29 @@ namespace Itworx_Backend.Controllers
                 return Ok(obj);
             }
         }
+
+        [HttpGet("GetLoggedInUser")]
+        [Authorize]
+        public IActionResult GetLoggedInUser()
+        {
+            if (HttpContext.User.Identity is not ClaimsIdentity identity)
+            {
+                return Unauthorized("You have to be logged in");
+            }
+
+            string? userEmail = identity.Claims.FirstOrDefault(o => o.Type == ClaimTypes.Email)?.Value;
+
+            if (userEmail == null)
+            {
+                return BadRequest("Invalid token");
+            }
+
+            User loggedInUser = _UserService.Get(userEmail);
+            loggedInUser.Password = "";
+
+            return Ok(loggedInUser);
+        }
+
         [HttpPost("Signup")]
         public IActionResult Signup(User User)
         {
@@ -63,32 +92,46 @@ namespace Itworx_Backend.Controllers
         }
 
         [HttpPost("Login")]
-        public IActionResult Login([FromBody] dynamic body)
+        public IActionResult Login([FromBody] UserLogin userLogin)
         {
-
-            var obj = JsonConvert.DeserializeObject<User>(body.ToString());
-
-            if (obj.Email.Length != 0 && obj.Password.Length != 0)
+            if (userLogin.Email.Length == 0 || userLogin.Password.Length == 0)
             {
-                User? old = _UserService.Get(obj.Email);
-                if (old != null)
-                {
-                    bool verified = BCrypt.Net.BCrypt.Verify(obj.Password, old.Password);
-                    if (verified)
-                    {
-                        return new OkObjectResult(old);
-                    }
-                    return BadRequest("Password Doesn't match");
-                }
-                else
-                {
-                    return BadRequest("email can't be found");
-                }
+                return BadRequest("Missing email or password");
             }
-            else
+
+            User user = _UserService.Get(userLogin.Email);
+
+            if (user != null)
             {
-                return BadRequest("Something went wrong");
+                bool passwordsMatch = BCrypt.Net.BCrypt.Verify(userLogin.Password, user.Password);
+
+                if (!passwordsMatch)
+                {
+                    return BadRequest("Wrong password");
+                }
+
+                SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+                SigningCredentials credentials = new(securityKey, SecurityAlgorithms.HmacSha256);
+
+                Claim[] claims = new[] {
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                };
+
+                JwtSecurityToken securityToken = new(
+                    _config["Jwt:Issuer"],
+                    _config["Jwt:Audience"],
+                    claims,
+                    expires: DateTime.Now.AddDays(5),
+                    signingCredentials: credentials
+                );
+
+                string token = new JwtSecurityTokenHandler().WriteToken(securityToken);
+
+                return Ok(token);
             }
+
+            return NotFound("Cannot Find user with the given email");
         }
 
         [HttpPost(nameof(UpdateUser))]
