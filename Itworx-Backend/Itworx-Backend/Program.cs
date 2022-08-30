@@ -51,6 +51,7 @@ builder.Services.AddScoped<IPropertyValue<PropertyValue>, PropertyValueService>(
 builder.Services.AddScoped<ItargetFramework<TargetFramework>, TargetFrameworkService>();
 builder.Services.AddScoped<IappType<AppType>, AppTypeService>();
 builder.Services.AddScoped<Iproject<Project>, ProjectService>();
+builder.Services.AddScoped<IServices<ImageFile>, FileServices>();
 #endregion
 
 var app = builder.Build();

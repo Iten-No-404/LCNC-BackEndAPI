@@ -15,6 +15,7 @@ namespace Itworx_Backend.Domain.Mapping
         {
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.Property(x => x.ImageName).IsRequired();
+            entityBuilder.Property(x => x.ImagePath);
 
         }
     }

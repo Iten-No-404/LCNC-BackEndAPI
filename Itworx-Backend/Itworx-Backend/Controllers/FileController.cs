@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System;
 using Itworx_Backend.Domain.Entities;
+using Itworx_Backend.Service.Interfaces;
 
 namespace Itworx_Backend.Controllers
 {
@@ -10,17 +11,25 @@ namespace Itworx_Backend.Controllers
     [ApiController]
     public class FileController : ControllerBase
     {
+        private readonly IServices<ImageFile> _ImageService;
+        public FileController(IServices<ImageFile> ImageService)
+        {
+            _ImageService = ImageService;
+        }
+
         [HttpPost]
         public ActionResult Post([FromForm] ImageFile file)
         {
             try
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "..//..//..//", "CodedSummer2022_LCNC_T6_Frontend//itworx//public", file.ImageName);
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "images", file.ImageName);
                 using (Stream stream = new FileStream(path, FileMode.Create))
                 {
                     file.Image.CopyTo(stream);
                 }
-                return Ok("/"+file.ImageName);
+                file.ImagePath = "localhost:5053/images/" + file.ImageName;
+                _ImageService.Insert(file);
+                return Ok(file);
             }
             catch (Exception ex)
             {

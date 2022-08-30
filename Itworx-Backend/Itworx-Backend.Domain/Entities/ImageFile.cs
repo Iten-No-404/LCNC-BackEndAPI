@@ -11,6 +11,7 @@ namespace Itworx_Backend.Domain.Entities
     public class ImageFile : baseEntity
     {
         public string ImageName { get; set; }
+        public string ImagePath { get; set; }
 
         [NotMapped]
         public IFormFile Image { get; set; }
