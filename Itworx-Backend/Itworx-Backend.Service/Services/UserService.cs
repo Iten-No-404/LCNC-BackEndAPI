@@ -6,8 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Itworx_Backend.Service.Interfaces;
-using System.Net.Http;
-using System.Security.Claims;
 
 namespace Itworx_Backend.Service.Services
 {
