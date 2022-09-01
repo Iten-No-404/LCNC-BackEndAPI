@@ -1,5 +1,6 @@
 ﻿using Itworx_Backend.Domain.Entities;
 using Itworx_Backend.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,8 +23,8 @@ namespace Itworx_Backend.Controllers
         }
 
         [HttpGet("{id}")]
-
-        public IActionResult getWidget(int id)
+        [Authorize]
+        public IActionResult GetWidget(int id)
         {
             var widget = _WidgetService.Get(id);
             widget.WidgetCodeSnippet = _widgetCodeSnippetService.GetSnippet(id);
@@ -33,8 +34,8 @@ namespace Itworx_Backend.Controllers
         }
 
         [HttpPost("Add")]
-
-        public IActionResult addWidget(Widget widget)
+        [Authorize]
+        public IActionResult AddWidget(Widget widget)
         {
             if (widget != null && widget.text.Length != 0 && widget.description.Length !=0)
             {
@@ -48,7 +49,7 @@ namespace Itworx_Backend.Controllers
         }
 
         [HttpGet("All")]
-
+        [Authorize]
         public IActionResult GetAllWidgets()
         {
             var items = _WidgetService.GetAll();
@@ -65,7 +66,7 @@ namespace Itworx_Backend.Controllers
 
 
         [HttpGet]
-
+        [Authorize]
         public IActionResult GetWidgetbyName(string title)
         {
             if(title.Length != 0)
