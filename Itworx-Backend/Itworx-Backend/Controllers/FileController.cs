@@ -22,7 +22,7 @@ namespace Itworx_Backend.Controllers
         {
             try
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "images", file.ImageName);
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", file.ImageName);
                 using (Stream stream = new FileStream(path, FileMode.Create))
                 {
                     file.Image.CopyTo(stream);
