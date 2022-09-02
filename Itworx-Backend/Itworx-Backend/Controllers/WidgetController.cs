@@ -23,6 +23,10 @@ namespace Itworx_Backend.Controllers
             _widgetCodeSnippetService = widgetCodeSnippetService;
         }
 
+        /// <summary> get widget by id </summary>
+        /// <param name="id"> widget id that you are searching about but you must be authorized first </param>
+        /// <returns> widget that has the same id if ok ; else bad request if there are any error </returns>
+
         [HttpGet("{id}")]
         [Authorize]
         public IActionResult GetWidget(int id)
@@ -45,6 +49,12 @@ namespace Itworx_Backend.Controllers
                 return Ok(widget);
             return BadRequest("widget not found");
         }
+
+        /// <summary>
+        /// Add new widget
+        /// </summary>
+        /// <param name="widget">object of widget class which must contain all ot its params</param>
+        /// <returns> inserted successfully if everything is fine</returns>
 
         [HttpPost("Add")]
         [Authorize]
@@ -71,6 +81,11 @@ namespace Itworx_Backend.Controllers
             }
             return BadRequest("Make sure you have entered everything correctly");
         }
+
+        /// <summary>
+        /// Get all widgets
+        /// </summary>
+        /// <returns>Array of widgets if found and 404 not found if not found </returns>
 
         [HttpGet("All")]
         [Authorize]
@@ -100,6 +115,11 @@ namespace Itworx_Backend.Controllers
             return BadRequest(" There are no widget yet");
         }
 
+        /// <summary>
+        /// get widget by its title
+        /// </summary>
+        /// <param name="title"> title of the widget that you are searching </param>
+        /// <returns> widget if found and unAuthroized if not logged in and bad request if there is an error </returns>
 
         [HttpGet]
         [Authorize]

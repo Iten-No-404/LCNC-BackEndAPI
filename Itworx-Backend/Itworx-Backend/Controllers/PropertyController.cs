@@ -19,6 +19,11 @@ namespace Itworx_Backend.Controllers
             _PropertyValueService = PropertyValueService;
         }
 
+        /// <summary>
+        /// Get all Properties
+        /// </summary>
+        /// <returns>Array of Properties if found and 404 not found if not found </returns>
+
         [HttpGet("All")]
 
         public IActionResult GetAllProperty()
@@ -28,6 +33,11 @@ namespace Itworx_Backend.Controllers
                 return NotFound();
             return Ok(obj);
         }
+
+        /// <summary> get Property by id </summary>
+        /// <param name="id"> property id that you are searching about</param>
+        /// <returns> property that has the same id if ok ; else bad request if there are any error </returns>
+
 
         [HttpGet("{id}")]
 
@@ -39,6 +49,10 @@ namespace Itworx_Backend.Controllers
                 return NotFound();
             return Ok(obj);
         }
+        
+        /// <summary> Add new property </summary>
+        /// <param name="prop">object of Property class which must contain description </param>
+        /// <returns> property that has been created </returns>
 
         [HttpPost("Add")]
 

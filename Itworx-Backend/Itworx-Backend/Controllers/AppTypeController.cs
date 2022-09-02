@@ -16,19 +16,25 @@ namespace Itworx_Backend.Controllers
         }
 
         /// <summary>
-        /// Get all actions of Apptype
+        /// Get all Types of App
         /// </summary>
-        /// <returns>Array of Apptype if found and 404 not found if not found </returns>
+        /// <returns>Array of App type if found and 404 not found if not found </returns>
 
         [HttpGet("All")]
 
-        public IActionResult GetAllActions()
+        public IActionResult GetAllappTypes()
         {
             var obj = _AppTypeService.GetAll();
             if (obj == null)
                 return NotFound();
             return Ok(obj);
         }
+
+        /// <summary>
+        /// to get special app type based on its id
+        /// </summary>
+        /// <param name="id"> id of the app tybe </param>
+        /// <returns> app type based on the id or 404 not found </returns>
 
         [HttpGet("{id}")]
 
@@ -42,7 +48,11 @@ namespace Itworx_Backend.Controllers
             return Ok(obj);
         }
 
-
+        /// <summary>
+        /// add app type by sending json contain type
+        /// </summary>
+        /// <param name="app"> class app whuch contain type field </param>
+        /// <returns> bad request if any error happen else ok with message apptype added successfully </returns>
 
         [HttpPost("Add")]
         public IActionResult AddAppType(AppType app) 
@@ -58,6 +68,11 @@ namespace Itworx_Backend.Controllers
             return BadRequest("The type is already found");
         }
 
+        /// <summary>
+        /// Get app type of certien type
+        /// </summary>
+        /// <param name="type"> type to search for an apptype with </param>
+        /// <returns> ok with the obj if found else bad request </returns>
 
         [HttpGet("GetType")]
         public IActionResult GetType (string type)

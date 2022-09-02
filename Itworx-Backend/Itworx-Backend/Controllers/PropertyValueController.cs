@@ -19,6 +19,11 @@ namespace Itworx_Backend.Controllers
             _PropertyService = PropertyService;
         }
 
+        /// <summary>
+        /// Get all Properties value
+        /// </summary>
+        /// <returns>Array of Property value if found and 404 not found if not found </returns>
+
         [HttpGet("All")]
 
         public IActionResult GetAllPropertyUnits()
@@ -29,6 +34,10 @@ namespace Itworx_Backend.Controllers
             return Ok(obj);
         }
 
+        /// <summary> get property value by id </summary>
+        /// <param name="id"> property value id that you are searching about</param>
+        /// <returns> property that has the same id if ok ; else bad request if there are any error </returns>
+
         [HttpGet("{id}")]
 
         public IActionResult GetPropertyUnit(int id)
@@ -38,6 +47,13 @@ namespace Itworx_Backend.Controllers
                 return BadRequest("not found");
             return Ok(obj);
         }
+
+        /// <summary>
+        /// Add new property value and link with its property
+        /// </summary>
+        /// <param name="propertyValue">object of property value class which must contain all ot its params</param>
+        /// <returns> Property value that has been created </returns>
+
 
         [HttpPost("Add")]
 
