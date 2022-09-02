@@ -15,6 +15,11 @@ namespace Itworx_Backend.Controllers
             _AppTypeService = AppTypeService;
         }
 
+        /// <summary>
+        /// Get all actions of Apptype
+        /// </summary>
+        /// <returns>Array of Apptype if found and 404 not found if not found </returns>
+
         [HttpGet("All")]
 
         public IActionResult GetAllActions()

@@ -33,8 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="images\" />
-    <Folder Include="NewFolder\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 

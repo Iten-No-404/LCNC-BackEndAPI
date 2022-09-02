@@ -17,8 +17,15 @@ namespace Itworx_Backend.Controllers
             _ImageService = ImageService;
         }
 
+        /// <summary>
+        /// Receive the Image File from the client side and store it in static folder (wwwroot) in images folder 
+        /// and store the path to the image in the database and return the path to client side 
+        /// </summary>
+        /// <param name="file"> File which store image</param>
+        /// <returns> path to the image  </returns>
+
         [HttpPost]
-        public ActionResult Post([FromForm] ImageFile file)
+        public ActionResult PostImage([FromForm] ImageFile file)
         {
             try
             {
