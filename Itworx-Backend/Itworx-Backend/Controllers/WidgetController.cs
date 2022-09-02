@@ -1,7 +1,9 @@
 ﻿using Itworx_Backend.Domain.Entities;
 using Itworx_Backend.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Itworx_Backend.Controllers
 {
@@ -22,9 +24,21 @@ namespace Itworx_Backend.Controllers
         }
 
         [HttpGet("{id}")]
-
-        public IActionResult getWidget(int id)
+        [Authorize]
+        public IActionResult GetWidget(int id)
         {
+            if (HttpContext.User.Identity is not ClaimsIdentity identity)
+            {
+                return Unauthorized("You have to be logged in");
+            }
+
+            string? userEmail = identity.Claims.FirstOrDefault(o => o.Type == ClaimTypes.Email)?.Value;
+
+            if (userEmail == null)
+            {
+                return BadRequest("Invalid token");
+            }
+
             var widget = _WidgetService.Get(id);
             widget.WidgetCodeSnippet = _widgetCodeSnippetService.GetSnippet(id);
             if (widget != null)
@@ -33,12 +47,23 @@ namespace Itworx_Backend.Controllers
         }
 
         [HttpPost("Add")]
-
-        public IActionResult addWidget(Widget widget)
+        [Authorize]
+        public IActionResult AddWidget(Widget widget)
         {
+            if (HttpContext.User.Identity is not ClaimsIdentity identity)
+            {
+                return Unauthorized("You have to be logged in");
+            }
+
+            string? userEmail = identity.Claims.FirstOrDefault(o => o.Type == ClaimTypes.Email)?.Value;
+
+            if (userEmail == null)
+            {
+                return BadRequest("Invalid token");
+            }
+
             if (widget != null && widget.text.Length != 0 && widget.description.Length !=0)
             {
-
                 widget.IsOnlyNested = widget.IsOnlyNested? widget.IsOnlyNested : false;
                 widget.RelatedAppType = _AppTypeService.Get(widget.AppTypeID);
                 _WidgetService.Insert(widget);
@@ -48,9 +73,21 @@ namespace Itworx_Backend.Controllers
         }
 
         [HttpGet("All")]
-
+        [Authorize]
         public IActionResult GetAllWidgets()
         {
+            if (HttpContext.User.Identity is not ClaimsIdentity identity)
+            {
+                return Unauthorized("You have to be logged in");
+            }
+
+            string? userEmail = identity.Claims.FirstOrDefault(o => o.Type == ClaimTypes.Email)?.Value;
+
+            if (userEmail == null)
+            {
+                return BadRequest("Invalid token");
+            }
+
             var items = _WidgetService.GetAll();
             if (items != null)
             {
@@ -65,10 +102,22 @@ namespace Itworx_Backend.Controllers
 
 
         [HttpGet]
-
+        [Authorize]
         public IActionResult GetWidgetbyName(string title)
         {
-            if(title.Length != 0)
+            if (HttpContext.User.Identity is not ClaimsIdentity identity)
+            {
+                return Unauthorized("You have to be logged in");
+            }
+
+            string? userEmail = identity.Claims.FirstOrDefault(o => o.Type == ClaimTypes.Email)?.Value;
+
+            if (userEmail == null)
+            {
+                return BadRequest("Invalid token");
+            }
+
+            if (title.Length != 0)
             {
                 var obj = _WidgetService.GetWidget(title);
                 if (obj != null)
