@@ -4,6 +4,7 @@ using System.IO;
 using System;
 using Itworx_Backend.Domain.Entities;
 using Itworx_Backend.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Itworx_Backend.Controllers
 {
@@ -25,13 +26,16 @@ namespace Itworx_Backend.Controllers
         /// <returns> path to the image  </returns>
 
         [HttpPost]
+        [Authorize]
         public ActionResult PostImage([FromForm] ImageFile file)
         {
             try
             {
                 string path = "";
-                Console.WriteLine("################File Path:"+ file.ImagePath);
+                
+                Console.WriteLine("################File Path:" + file.ImagePath);
                 Console.WriteLine("################File Name:" + file.ImageName);
+                
                 if (file.ImagePath != "")
                 {
                     path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/", file.ImagePath);
@@ -44,10 +48,9 @@ namespace Itworx_Backend.Controllers
                         }
                         else
                         {
-
-                        // Try to create the directory.
-                        DirectoryInfo di = Directory.CreateDirectory(path);
-                        Console.WriteLine("The directory was created successfully at {0}.", Directory.GetCreationTime(path));
+                            // Try to create the directory.
+                            DirectoryInfo di = Directory.CreateDirectory(path);
+                            Console.WriteLine("The directory was created successfully at {0}.", Directory.GetCreationTime(path));
                         }
                         path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/", file.ImagePath, file.ImageName);
                     }
@@ -58,22 +61,25 @@ namespace Itworx_Backend.Controllers
                 }
                 else
                     path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.ImageName);
+                
                 using (Stream stream = new FileStream(path, FileMode.Create))
                 {
                     file.Image.CopyTo(stream);
                 }
+                
                 if (file.ImagePath != "")
-                    file.ImagePath = "localhost:5053/images/" + file.ImagePath + file.ImageName;
+                    file.ImagePath = Request.Host + "/images/" + file.ImagePath + file.ImageName;
                 else
-                    file.ImagePath = "localhost:5053/images/" + file.ImageName;
+                    file.ImagePath = Request.Host + "/images/" + file.ImageName;
+                
                 _ImageService.Insert(file);
+                
                 return Ok(file);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
         }
     }
 }
