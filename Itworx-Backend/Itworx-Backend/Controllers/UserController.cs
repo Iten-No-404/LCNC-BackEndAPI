@@ -11,6 +11,8 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Itworx_Backend.Controllers
 {
@@ -26,6 +28,10 @@ namespace Itworx_Backend.Controllers
             _UserService = UserService;
         }
 
+        /// <summary> get user by id </summary>
+        /// <param name="id"> user id that you are searching about</param>
+        /// <returns> user that has the same id if ok ; else bad request if there are any error </returns>
+
         [HttpGet("{id}")]
         public IActionResult GetUserById(int id)
         {
@@ -39,6 +45,9 @@ namespace Itworx_Backend.Controllers
                 return Ok(obj);
             }
         }
+
+        /// <summary> get user using token provided as a header </summary>
+        /// <returns> user that has the same email of the token if ok ; else bad request if there are any error </returns>
 
         [HttpGet("GetLoggedInUser")]
         [Authorize]
@@ -61,6 +70,10 @@ namespace Itworx_Backend.Controllers
 
             return Ok(loggedInUser);
         }
+
+        /// <summary> Sign up new user and hash his password to provide secuirty to the system </summary>
+        /// <param name="User"> object of user class which must contain all ot its params </param>
+        /// <returns> user that has been created if ok ; else bad request if there are any error </returns>
 
         [HttpPost("Signup")]
         public IActionResult Signup(User User)
@@ -113,6 +126,12 @@ namespace Itworx_Backend.Controllers
             }
         }
 
+        /// <summary>
+        /// get user by email and password to provide Auth
+        /// </summary>
+        /// <param name="userLogin">object of user login class which contain email and password </param>
+        /// <returns> user that found if password is matched with the hashed password else bad request </returns>
+
         [HttpPost("Login")]
         public IActionResult Login([FromBody] UserLogin userLogin)
         {
@@ -156,6 +175,12 @@ namespace Itworx_Backend.Controllers
             return NotFound("Cannot find user with the given email");
         }
 
+        /// <summary>
+        /// update user information
+        /// </summary>
+        /// <param name="User">object of user class which must contain all ot its params</param>
+        /// <returns> user if update is complete else bad request </returns>
+
         [HttpPost(nameof(UpdateUser))]
         public IActionResult UpdateUser(User User)
         {
@@ -178,6 +203,13 @@ namespace Itworx_Backend.Controllers
                 return BadRequest();
             }
         }
+
+        /// <summary>
+        /// delete user
+        /// </summary>
+        /// <param name="User">object of user class which must contain all ot its params</param>
+        /// <returns> Deleted successfully if everything is fine else bad request with a reason </returns>
+
         [HttpDelete(nameof(DeleteUser))]
         public IActionResult DeleteUser(User User)
         {

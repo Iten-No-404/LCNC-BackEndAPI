@@ -15,6 +15,11 @@ namespace Itworx_Backend.Controllers
             _UnitService = UnitService;
         }
 
+        /// <summary>
+        /// Get all unit
+        /// </summary>
+        /// <returns> Array of units if found and 404 not found if not found </returns>
+
         [HttpGet("GetAllUnits")]
 
         public IActionResult GetAllActions()
@@ -24,6 +29,13 @@ namespace Itworx_Backend.Controllers
                 return NotFound();
             return Ok(obj);
         }
+
+        /// <summary>
+        /// Add new unit
+        /// </summary>
+        /// <param name="unit">object of unit class which must contain all ot its params</param>
+        /// <returns> unit that has been created </returns>
+
 
         [HttpPost("CreateUnit")]
         public IActionResult CreateUnit(Unit unit)
@@ -44,6 +56,10 @@ namespace Itworx_Backend.Controllers
             return BadRequest("Please make sure you have entered everything");
         }
 
+        /// <summary> get property unit by name </summary>
+        /// <param name="UnitName"> unit name that you are searching about</param>
+        /// <returns> unit that has the same id if ok ; else bad request if there are any error </returns>
+
         [HttpGet("GetUnit")]
         public IActionResult GetFramework(string UnitName)
         {
@@ -57,6 +73,10 @@ namespace Itworx_Backend.Controllers
                 return Ok(obj);
             }
         }
+        /// <summary> delete unit by name </summary>
+        /// <param name="id"> unit name that you are searching about</param>
+        /// <returns> ok if no error ; else bad request if there are any error </returns>
+
 
         [HttpDelete("DeleteUnit")]
         public IActionResult DeleteFramework(string UnitName)

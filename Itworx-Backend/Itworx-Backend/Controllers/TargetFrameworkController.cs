@@ -16,6 +16,13 @@ namespace Itworx_Backend.Controllers
             _TargetFrameworkService = TargetFrameworkService;
         }
 
+        /// <summary>
+        /// Add new target framework
+        /// </summary>
+        /// <param name="Framework">object of target framework class which must contain all ot its params</param>
+        /// <returns> Ok if everything is fine else bad request which contain the reason </returns>
+
+
         [HttpPost("CreateFramework")]
         public IActionResult CreateFramework(TargetFramework Framework)
         {
@@ -35,6 +42,11 @@ namespace Itworx_Backend.Controllers
             return BadRequest("Please make sure you have entered everything");
         }
 
+        /// <summary> get target framework by its name </summary>
+        /// <param name="FrameworkName"> target framework name that you are searching about</param>
+        /// <returns> target framework that has the same name if ok ; else bad request if there are any error </returns>
+
+
         [HttpGet("GetFramework")]
         public IActionResult GetFramework(string FrameworkName)
         {
@@ -48,6 +60,10 @@ namespace Itworx_Backend.Controllers
                 return Ok(obj);
             }
         }
+
+        /// <summary> delete target framework by its name </summary>
+        /// <param name="FrameworkName"> target framework name that you are searching about</param>
+        /// <returns> ok if everything is fine ; else bad request if there are any error </returns>
 
         [HttpDelete("DeleteFramework")]
         public IActionResult DeleteFramework(string FrameworkName)

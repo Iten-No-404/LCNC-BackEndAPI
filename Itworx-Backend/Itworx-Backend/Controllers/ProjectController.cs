@@ -26,6 +26,13 @@ namespace Itworx_Backend.Controllers
             _TargetFrameworkService = TargetFrameworkService;
         }
 
+        /// <summary>
+        /// get project by id but you first have to be logged in 
+        /// so you are authroized to perform this function
+        /// </summary>
+        /// <param name="id"> project id that you are searching about</param>
+        /// <returns> project that has the same id if ok ; else if not authorized return unauthorized "you have to be logged in" else bad request if there are any error </returns>
+
         [HttpGet("{id}")]
         [Authorize]
         public IActionResult GetProject(int id)
@@ -47,6 +54,12 @@ namespace Itworx_Backend.Controllers
                 return Ok(obj);
             return BadRequest("project not found");
         }
+
+        /// <summary>
+        /// Get all projects that have the same user Id so we can have all the projects done by the same user
+        /// </summary>
+        /// <param name="userID"> user id that searching </param>
+        /// <returns> array of projects that have the same user id else unauthorized if not logged in else bad request </returns>
 
         [HttpGet("user/{userID}")]
         [Authorize]
@@ -70,6 +83,11 @@ namespace Itworx_Backend.Controllers
             return BadRequest("project not found");
         }
 
+        /// <summary>
+        /// Add new project to the user and link app type , target framework , user to this project
+        /// </summary>
+        /// <param name="project">object of project class which must contain title and description and app path </param>
+        /// <returns> project that has been created </returns>
 
         [HttpPost("Add")]
         [Authorize]
@@ -98,6 +116,12 @@ namespace Itworx_Backend.Controllers
             }
             return BadRequest("Make sure you have entered everything correctly");
         }
+
+        /// <summary>
+        /// update project for adding widgets or update it
+        /// </summary>
+        /// <param name="project"> object of project class contain modified project </param>
+        /// <returns> project if no error else unauth if not logged in else bad request if any error happened  </returns>
 
         [HttpPut("Update")]
         [Authorize]

@@ -21,9 +21,15 @@ namespace Itworx_Backend.Controllers
             _WidgetService = WidgetService;
         }
 
+        /// <summary>
+        /// Get all widget properties
+        /// </summary>
+        /// <returns>Array of widget properties if found and 404 not found if not found </returns>
+
+
         [HttpGet("All")]
 
-        public IActionResult GetAllPropertyUnits()
+        public IActionResult GetAllWidgetProperties()
         {
             var obj = _WidgetPropertyService.GetAll();
             if (obj == null)
@@ -31,9 +37,14 @@ namespace Itworx_Backend.Controllers
             return Ok(obj);
         }
 
+        /// <summary> get widget property by id </summary>
+        /// <param name="id"> widget property id that you are searching about</param>
+        /// <returns> widget property that has the same id if ok ; else bad request if there are any error </returns>
+
+
         [HttpGet("{id}")]
 
-        public IActionResult GetPropertyUnit(int id)
+        public IActionResult GetWidgetProperty(int id)
         {
             var obj = _WidgetPropertyService.Get(id);
             if (obj == null)
@@ -41,9 +52,15 @@ namespace Itworx_Backend.Controllers
             return Ok(obj);
         }
 
+        /// <summary>
+        /// Add new widget property and link it with its widget and its property
+        /// </summary>
+        /// <param name="widgetProperty">object of widget property class which must contain all ot its params</param>
+        /// <returns> widget property that has been created </returns>
+
         [HttpPost("Add")]
 
-        public IActionResult CreatePropertyUnit(WidgetProperty widgetProperty)
+        public IActionResult Createwidgetproperty(WidgetProperty widgetProperty)
         {
             if (widgetProperty == null)
                 return BadRequest("Make sure you have entered everything correct");
