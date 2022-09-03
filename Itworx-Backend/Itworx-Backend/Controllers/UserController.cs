@@ -76,8 +76,30 @@ namespace Itworx_Backend.Controllers
                     User.modifiedTime = DateTime.Now;
                     User.addedData = DateTime.Now;
                     _UserService.Insert(User);
+
+                    SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+                    SigningCredentials credentials = new(securityKey, SecurityAlgorithms.HmacSha256);
+
                     var obj = _UserService.Get(User.Email);
-                    return Ok(obj);
+
+                    Claim[] claims = new[] {
+                    new Claim(ClaimTypes.Email, obj.Email),
+                    new Claim(ClaimTypes.NameIdentifier, obj.Id.ToString())
+                    };
+
+                    JwtSecurityToken securityToken = new(
+                        _config["Jwt:Issuer"],
+                        _config["Jwt:Audience"],
+                        claims,
+                        expires: DateTime.Now.AddDays(5),
+                        signingCredentials: credentials
+                    );
+
+                    string token = new JwtSecurityTokenHandler().WriteToken(securityToken);
+
+                    return Ok(token);
+                    // var obj = _UserService.Get(User.Email);
+                    // return Ok(obj);
                     // return Ok("Created Successfully");
                 }
                 else
@@ -131,7 +153,7 @@ namespace Itworx_Backend.Controllers
                 return Ok(token);
             }
 
-            return NotFound("Cannot Find user with the given email");
+            return NotFound("Cannot find user with the given email");
         }
 
         [HttpPost(nameof(UpdateUser))]
