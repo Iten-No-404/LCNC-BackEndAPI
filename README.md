@@ -50,7 +50,7 @@ Open `appsettings.json` in `Itworx-Backend` folder and write your database conne
 
 ### 5. Run the migrations to create the database tables:
 
-- Go to **Tools ---> NuGet Package Manager ---> Package Manager Console**.
+- Go to **Tools --> NuGet Package Manager --> Package Manager Console**.
 - Make sure that the `Default project` is **Itworx-Backend.Repository**. If not, please select it from the dropdown.
 - Run the `update-database` command in the console.
 
