@@ -11,6 +11,8 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Itworx_Backend.Controllers
 {
@@ -30,7 +32,6 @@ namespace Itworx_Backend.Controllers
         /// <param name="id"> user id that you are searching about</param>
         /// <returns> user that has the same id if ok ; else bad request if there are any error </returns>
 
-
         [HttpGet("{id}")]
         public IActionResult GetUserById(int id)
         {
@@ -47,7 +48,6 @@ namespace Itworx_Backend.Controllers
 
         /// <summary> get user using token provided as a header </summary>
         /// <returns> user that has the same email of the token if ok ; else bad request if there are any error </returns>
-
 
         [HttpGet("GetLoggedInUser")]
         [Authorize]
@@ -75,7 +75,6 @@ namespace Itworx_Backend.Controllers
         /// <param name="User"> object of user class which must contain all ot its params </param>
         /// <returns> user that has been created if ok ; else bad request if there are any error </returns>
 
-
         [HttpPost("Signup")]
         public IActionResult Signup(User User)
         {
@@ -90,8 +89,30 @@ namespace Itworx_Backend.Controllers
                     User.modifiedTime = DateTime.Now;
                     User.addedData = DateTime.Now;
                     _UserService.Insert(User);
+
+                    SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+                    SigningCredentials credentials = new(securityKey, SecurityAlgorithms.HmacSha256);
+
                     var obj = _UserService.Get(User.Email);
-                    return Ok(obj);
+
+                    Claim[] claims = new[] {
+                    new Claim(ClaimTypes.Email, obj.Email),
+                    new Claim(ClaimTypes.NameIdentifier, obj.Id.ToString())
+                    };
+
+                    JwtSecurityToken securityToken = new(
+                        _config["Jwt:Issuer"],
+                        _config["Jwt:Audience"],
+                        claims,
+                        expires: DateTime.Now.AddDays(5),
+                        signingCredentials: credentials
+                    );
+
+                    string token = new JwtSecurityTokenHandler().WriteToken(securityToken);
+
+                    return Ok(token);
+                    // var obj = _UserService.Get(User.Email);
+                    // return Ok(obj);
                     // return Ok("Created Successfully");
                 }
                 else
@@ -110,7 +131,6 @@ namespace Itworx_Backend.Controllers
         /// </summary>
         /// <param name="userLogin">object of user login class which contain email and password </param>
         /// <returns> user that found if password is matched with the hashed password else bad request </returns>
-
 
         [HttpPost("Login")]
         public IActionResult Login([FromBody] UserLogin userLogin)
@@ -152,7 +172,7 @@ namespace Itworx_Backend.Controllers
                 return Ok(token);
             }
 
-            return NotFound("Cannot Find user with the given email");
+            return NotFound("Cannot find user with the given email");
         }
 
         /// <summary>
@@ -160,7 +180,6 @@ namespace Itworx_Backend.Controllers
         /// </summary>
         /// <param name="User">object of user class which must contain all ot its params</param>
         /// <returns> user if update is complete else bad request </returns>
-
 
         [HttpPost(nameof(UpdateUser))]
         public IActionResult UpdateUser(User User)
