@@ -29,7 +29,7 @@ namespace Itworx_Backend.Repository
             builder.ApplyConfiguration(new PropertyUnitMapping());
             builder.ApplyConfiguration(new PropertyValueMapping());
             builder.ApplyConfiguration(new ImageFileMapping());
-
+            builder.ApplyConfiguration(new userTokenMapping());
 
             base.OnModelCreating(builder);
         }
