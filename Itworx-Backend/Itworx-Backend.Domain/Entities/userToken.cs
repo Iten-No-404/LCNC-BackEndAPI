@@ -11,7 +11,7 @@ namespace Itworx_Backend.Domain.Entities
         public string? token { get; set; } = "";
         public string? uuid { get; set; } = "";
 
-        public int userid { get; set; }
+        public long userid { get; set; }
         public virtual User? user { get; set; }
 
     }

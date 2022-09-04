@@ -22,10 +22,30 @@ namespace Itworx_Backend.Controllers
     {
         private readonly IConfiguration _config;
         private readonly IuserServices<User> _UserService;
-        public UserController(IConfiguration config, IuserServices<User> UserService)
+        private readonly IUserTokensService<userToken> _UserTokenService;
+        public UserController(IConfiguration config, IuserServices<User> UserService, IUserTokensService<userToken> UserTokenService)
         {
             _config = config;
             _UserService = UserService;
+            _UserTokenService = UserTokenService;
+        }
+
+        /// <summary> get user by token by uuid </summary>
+        /// <param name="uuid"> unique uuid that you are searching with</param>
+        /// <returns> user's token that has the same uuid if ok ; else bad request if there are any error </returns>
+
+        [HttpGet("getToken/{uuid}")]
+        public IActionResult GetUserById(string uuid)
+        {
+            var obj = _UserTokenService.Get(uuid);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(obj);
+            }
         }
 
         /// <summary> get user by id </summary>
@@ -110,10 +130,16 @@ namespace Itworx_Backend.Controllers
 
                     string token = new JwtSecurityTokenHandler().WriteToken(securityToken);
 
-                    return Ok(token);
-                    // var obj = _UserService.Get(User.Email);
-                    // return Ok(obj);
-                    // return Ok("Created Successfully");
+                    userToken userToken = new()
+                    {
+                        uuid = Guid.NewGuid().ToString(),
+                        userid = obj.Id,
+                        token = token
+                    };
+
+                    _UserTokenService.Insert(userToken);
+
+                    return Ok(userToken);
                 }
                 else
                 {
@@ -169,7 +195,16 @@ namespace Itworx_Backend.Controllers
 
                 string token = new JwtSecurityTokenHandler().WriteToken(securityToken);
 
-                return Ok(token);
+                userToken userToken = new()
+                {
+                    uuid = Guid.NewGuid().ToString(),
+                    userid = user.Id,
+                    token = token
+                };
+
+                _UserTokenService.Insert(userToken);
+
+                return Ok(userToken);
             }
 
             return NotFound("Cannot find user with the given email");

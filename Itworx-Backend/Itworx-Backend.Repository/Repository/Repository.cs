@@ -16,6 +16,7 @@ namespace Itworx_Backend.Repository.Repository
         private readonly ApplicationDbContext _applicationDbContext;
         private DbSet<T> entities;
         private DbSet<User> userentities;
+        private DbSet<userToken> UserTokensentities;
         private DbSet<TargetFramework> Frameworkentities;
         private DbSet<AppType> Appentities;
         private DbSet<Unit> Unitentities;
@@ -32,6 +33,7 @@ namespace Itworx_Backend.Repository.Repository
             _applicationDbContext = applicationDbContext;
             entities = _applicationDbContext.Set<T>();
             userentities = _applicationDbContext.Set<User>();
+            UserTokensentities = _applicationDbContext.Set<userToken>();
             Frameworkentities = _applicationDbContext.Set<TargetFramework>();
             Appentities = _applicationDbContext.Set<AppType>();
             Unitentities = _applicationDbContext.Set<Unit>();
@@ -55,6 +57,12 @@ namespace Itworx_Backend.Repository.Repository
             return entities.SingleOrDefault(c => c.Id == Id);
         }
 
+        public userToken GetToken(string uuid)
+        {
+            return UserTokensentities.SingleOrDefault(c => c.uuid == uuid);
+        }
+
+        
         public User Get(string email)
         {
             return userentities.SingleOrDefault(c => c.Email == email);

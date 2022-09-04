@@ -42,6 +42,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped(typeof(iRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<Iunit<Unit>, UnitService>();
 builder.Services.AddScoped<IuserServices<User>, UserService>();
+builder.Services.AddScoped<IUserTokensService<userToken>, UserTokensService>();
 builder.Services.AddScoped<Iwidget<Widget>, WidgetService>();
 builder.Services.AddScoped<ICodeSnippet<WidgetCodeSnippet>, WidgetCodeSnippetService>();
 builder.Services.AddScoped<IServices<WidgetProperty>, WidgetPropertyService>();
