@@ -1,34 +1,58 @@
-# CodedSummer2022_LCNC_T6_BackendAPI
 
-This is a backend for coded summer of itworx using ASP.net core 6 wep api and using code first approach
+# LCNC Design Tool Web API
 
-the structure of the code is:
+This is the Web API for the Coded Summer Competition sponsered by ITWorx.
+[Swagger API Documentation](https://abdullahadel-001-site1.etempurl.com/swagger/index.html)
 
--  itworx-Backend is the main folder that will run the program and hold controllers that will preform routes.
-    - controller files which contain the routes.
-    - wwwroot contain all the static files and images we can use
-    - program file is the startup file which connect it with the database,connect services with itworx-Backend,etc
--  itworx-Backend.Domain is the folder that contain all the database classes and models.
-    - entities folder is the main folder of this folder which contains the class models.
-    - mapping folder is the folder which contains the mapping between all classes.
--  itworx-Backend.Repository is the folder that contain database context and migration files.
-    - applicationDbcontext is the file which we use twhen doing migration
-    - Repository folder contain all the functions of database.
-    - migrations folder is the folder contain all the migrations done.
--  itworx-Backend.service is the folder that hold all the business logic of the entity.
+## Code Structure
 
-## 💻 Built Using <a name = "tech"></a>
+-  **Itworx-Backend** is the main layer that will run the program and hold controllers of the API's endpoints.
+    - **Controller** folder which contains the APIs controllers.
+    - **wwwroot** folder which contains all the static files and images we can use.
+    - **program.cs** file is the startup file which connects with the database, connect services with **Itworx-Backend**, etc...
+-  **Itworx-Backend.Domain** is the layer that contains all the database classes and models.
+    - **Entities** folder is the main folder of this layer which contains the class models.
+    - **Mapping** folder which contains the mapping between all classes.
+-  **Itworx-Backend.Repository** is the layer that contains database context and migration files.
+    - **ApplicationDbcontext.cs** is the file which we use when we add migrations.
+    - **Repository** folder contains all the classes and methods that interact with the database.
+    - **Migrations** folder contains all the migrations created.
+-  **Itworx-Backend.Service** is the layer that hold all the business logic of the entities.
 
-- [ASP.NET]()
+## Built Using
 
-## how to start
+- C# language
+- .NET Core 6
+- ASP .NET Core Web API
+- Entity Framework Core 6
+- MS SQL Server
 
-If you want to start the app, you have to press F5 in vitual studio.
+## Installation Guide
 
-don't forget to put your connection string in appsettings.json in main folder in conn.
-don't forget to do migration so the database have all classes
+### Prerequisites:
+
+- [Visual Studio IDE 2022](https://visualstudio.microsoft.com/downloads/) with .NET Core and Web Development workloads downloaded.
+- [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+
+### 1. Clone the project:
+
+```sh
+cd https://github.com/itworx/CodedSummer2022_LCNC_T6_BackendAPI.git
 ```
-  add-migration "migration name"
-  update-database
-```
 
+### 2. Open Itworx-Backend folder
+
+### 3. Open Itworx-Backend.sln file in Visual Studio
+
+### 4. Set up the database connection string:
+
+Open `appsettings.json` in `Itworx-Backend` folder and write your database connection string in `ConnectionStrings.myconn`.
+
+### 5. Run the migrations to create the database tables:
+
+- Go to **Tools ---> NuGet Package Manager ---> Package Manager Console**.
+- Run the `update-database` command.
+
+### 6. Run the application:
+
+Start the application by pressing `Ctrl + F5` and the application will start running at `http://localhost:5053/api`.
