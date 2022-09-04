@@ -28,9 +28,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
-builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+builder.Services.AddCors(p => p.AddPolicy("AllowAnyOrigin", builder =>
 {
-    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
 }));
 
 builder.Services.AddControllers().AddJsonOptions(o => o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
@@ -57,7 +57,9 @@ builder.Services.AddScoped<IServices<ImageFile>, FileServices>();
 
 var app = builder.Build();
 
-app.UseCors("corsapp");
+app.UseRouting();
+
+app.UseCors("AllowAnyOrigin");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
