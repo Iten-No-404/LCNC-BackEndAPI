@@ -22,5 +22,9 @@ namespace Itworx_Backend.Domain.Entities
         public bool IsActive { get; set; }
 
         public virtual IList<Project>? Project { get; set; }
+
+        public int ? tokenId { get; set; }
+
+        public virtual userToken? UserToken { get; set; }
     }
 }
