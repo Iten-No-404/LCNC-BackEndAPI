@@ -57,12 +57,16 @@ namespace Itworx_Backend.Repository.Repository
             return entities.SingleOrDefault(c => c.Id == Id);
         }
 
+        public userToken GetTokenByUserId(long userid)
+        {
+            return UserTokensentities.SingleOrDefault(c => c.userid == userid);
+        }
+
         public userToken GetToken(string uuid)
         {
             return UserTokensentities.SingleOrDefault(c => c.uuid == uuid);
         }
 
-        
         public User Get(string email)
         {
             return userentities.SingleOrDefault(c => c.Email == email);

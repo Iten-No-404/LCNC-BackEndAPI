@@ -137,7 +137,14 @@ namespace Itworx_Backend.Controllers
                         token = token
                     };
 
-                    _UserTokenService.Insert(userToken);
+                    if (_UserTokenService.Get(obj.Id) != null)
+                    {
+                        _UserTokenService.Insert(userToken);
+                    }
+                    else
+                    {
+                        _UserTokenService.Update(userToken);
+                    }
 
                     return Ok(userToken);
                 }
@@ -202,7 +209,14 @@ namespace Itworx_Backend.Controllers
                     token = token
                 };
 
-                _UserTokenService.Insert(userToken);
+                if (_UserTokenService.Get(user.Id) != null)
+                {
+                    _UserTokenService.Insert(userToken);
+                }
+                else
+                {
+                    _UserTokenService.Update(userToken);
+                }
 
                 return Ok(userToken);
             }

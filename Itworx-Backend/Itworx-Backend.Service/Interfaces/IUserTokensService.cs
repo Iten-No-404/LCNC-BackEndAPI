@@ -8,7 +8,9 @@ namespace Itworx_Backend.Service.Interfaces
 {
     public interface IUserTokensService<T> where T : class
     {
+        T Get(long id);
         T Get(string uuid);
         void Insert(T entity);
+        void Update(T entity);
     }
 }

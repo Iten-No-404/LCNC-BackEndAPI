@@ -12,6 +12,7 @@ namespace Itworx_Backend.Repository.Repository
     {
         IEnumerable<T> GetAll();
         T Get(int Id);
+        userToken GetTokenByUserId(long userid);
         userToken GetToken(string uuid);
         User Get(string email);
 

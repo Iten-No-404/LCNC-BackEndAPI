@@ -17,6 +17,27 @@ namespace Itworx_Backend.Service.Services
             _userTokenRepository = userTokenRepository;
         }
 
+        public userToken Get(long id)
+        {
+            try
+            {
+                var obj = _userTokenRepository.GetTokenByUserId(id);
+
+                if (obj != null)
+                {
+                    return obj;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        
         public userToken Get(string uuid)
         {
             try
@@ -45,6 +66,22 @@ namespace Itworx_Backend.Service.Services
                 if (entity != null)
                 {
                     _userTokenRepository.Insert(entity);
+                    _userTokenRepository.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void Update(userToken entity)
+        {
+            try
+            {
+                if (entity != null)
+                {
+                    _userTokenRepository.Update(entity);
                     _userTokenRepository.SaveChanges();
                 }
             }
